@@ -1,0 +1,34 @@
+generated: '2026-07-18'
+method: searched
+source: openapi/cobee-public-api-openapi-original.json
+docs: https://docs.api.cobee.io/en/api-reference/authentication
+# Upgraded from the derived http-bearer scheme using the provider's docs: the
+# bearer JWT is obtained via an OAuth 2.0 Client Credentials exchange (Auth0).
+summary:
+  types: [oauth2, http]
+  oauth2_flows: [clientCredentials]
+  http_schemes: [bearer]
+  token_format: JWT (RS256, validated against Auth0 public keys)
+  token_claims: [companyId, corporationId]
+model: >-
+  Server-to-server. Exchange clientId + clientSecret (issued by the customer's
+  Customer Success Manager) at POST /oauth/token for a short-lived JWT, then send
+  it as `Authorization: Bearer <jwt>` on every request. Re-authenticate when the
+  JWT expires.
+schemes:
+  - name: clientCredentials
+    type: oauth2
+    flow: clientCredentials
+    token_url: /oauth/token
+    request_fields: [clientId, clientSecret]
+    provider: Auth0
+    sources: [https://docs.api.cobee.io/en/api-reference/authentication]
+  - name: bearerAuth
+    type: http
+    scheme: bearer
+    bearer_format: JWT
+    sources: [openapi/cobee-public-api-openapi-original.json]
+notes: >-
+  The OpenAPI models only the resulting http bearer scheme; the OAuth2
+  client-credentials exchange is documented on the docs security/authentication
+  pages. No OAuth scopes are documented, so no scopes/ artifact is emitted.
