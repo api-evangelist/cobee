@@ -1,0 +1,92 @@
+openapi: 3.0.1
+info:
+  title: Public Companies Oauth API
+  description: Public API definition where you can check the documentation for the different available operations to integrate with the platform.
+  license:
+    name: MIT
+  version: 1.0.0
+servers:
+- url: https://pre-public-api.cobee.io/api/v3
+- url: https://public-api.cobee.io/api/v3
+security:
+- bearerAuth: []
+tags:
+- name: Oauth
+paths:
+  /oauth/token:
+    post:
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthenticateRequest'
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                    description: Token to be used in the Authorization header on subsequent requests
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMywiZXhwIjoxNzEwNjU1MjAwfQ.NDCEZZKZ7v8bIh_vO8ht51EepUuCOZBIX8DVXy5eVhA
+                  tokenType:
+                    type: string
+                    description: Type of token
+                    example: Bearer
+                  expiresIn:
+                    type: integer
+                    description: The number of seconds until the token expires
+                    example: 86400
+        '400':
+          description: Bad Request - The request body is invalid or missing required fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                message: 'body: must have required property ''clientId'''
+        '401':
+          description: Unauthorised - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                message: Invalid credentials
+      tags:
+      - Oauth
+components:
+  schemas:
+    AuthenticateRequest:
+      type: object
+      required:
+      - clientId
+      - clientSecret
+      properties:
+        clientId:
+          type: string
+          description: Client ID
+        clientSecret:
+          type: string
+          description: Client Secret
+    Error:
+      required:
+      - error
+      - message
+      type: object
+      properties:
+        error:
+          type: integer
+          format: int32
+        message:
+          type: string
+      example:
+        message: 'Bad request: Invalid field value'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
