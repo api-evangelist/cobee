@@ -1,0 +1,17 @@
+generated: '2026-07-18'
+method: searched
+probe: true
+url: https://trust.cobee.io/
+platform: Vanta
+certifications: []
+evidence:
+  - source: https://trust.cobee.io/
+    kind: trust-center
+    detail: 'Live "Cobee by Pluxee Trust Center" hosted on Vanta (data-environment=prod).'
+  - source: https://cobee.io/en/
+    kind: footer-link
+    detail: 'Homepage footer links "Security" to https://trust.cobee.io/.'
+notes: >-
+  Trust center is a client-rendered Vanta single-page app; the named certification
+  set (e.g. SOC 2 / ISO 27001) was not extractable from the served HTML at capture
+  time and is left empty rather than fabricated. Revisit to enumerate certifications.

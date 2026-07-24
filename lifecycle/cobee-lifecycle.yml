@@ -1,0 +1,30 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.api.cobee.io/en/api-reference/api_introduction
+versioning:
+  scheme: uri-path
+  current: v3
+  base_path: /api/v3
+  docs: https://docs.api.cobee.io/en/get_started
+deprecation:
+  policy_url: null
+  sunset_header: false
+  notes: >-
+    No formal deprecation policy or RFC 8594 Sunset/Deprecation header support
+    documented. The docs flag individual operations as deprecated in-place (see
+    the deprecated "List employee consumptions" endpoint).
+sla:
+  url: null
+  uptime_target: null
+status_page: null
+support: https://www.pluxee.es/helpcenter/
+# Operations the provider marks deprecated (documented in the API reference nav).
+deprecated_operations:
+  - path: /companies/{companyId}/employees/{employeeId}/consumptions
+    method: GET
+    label: '[Deprecated] - List employee consumptions'
+    replacement_docs: https://docs.api.cobee.io/en/api-reference/consumptions/endpoint/get_employee_consumptions.md
+    source: https://docs.api.cobee.io/en/api-reference/consumptions/endpoint/get_employee_consumptions_old.md
+notes: >-
+  Cobee was acquired by Pluxee (Sodexo group) in 2024; developer support runs
+  through the Pluxee help center and the customer's Customer Success Manager.

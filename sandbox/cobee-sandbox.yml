@@ -1,0 +1,30 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.api.cobee.io/en/get_started
+# Cobee separates a staging (sandbox) environment from production. Credentials
+# for each are issued by the customer's Customer Success Manager (no self-serve
+# signup). No published test cards/tokens — access is credential-gated.
+environments:
+  - name: staging
+    role: sandbox / testing and development
+    base_url: https://pre-public-api.cobee.io/api/v3
+    token_endpoint: https://pre-public-api.cobee.io/api/v3/oauth/token
+  - name: production
+    role: live data
+    base_url: https://public-api.cobee.io/api/v3
+    token_endpoint: https://public-api.cobee.io/api/v3/oauth/token
+access:
+  self_serve: false
+  how_to_get: Contact your Cobee Customer Success Manager to be issued clientId/clientSecret for staging and/or production.
+  credentials: [clientId, clientSecret]
+sandbox_only_operations:
+  - operation: createEmployeeConsumption
+    path: /companies/{companyId}/payroll-cycles/{payrollCycleId}/employees/{employeeId}/consumptions
+    method: POST
+    note: 'Documented as only available in the sandbox environment (used to simulate consumptions for testing).'
+test_values:
+  published: none
+  note: >-
+    Cobee does not publish static magic test identifiers or test cards. Test data
+    is provisioned within the staging tenant tied to the issued credentials.
+availability: 'Public API currently available for Spanish customers only.'

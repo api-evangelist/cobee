@@ -1,0 +1,26 @@
+generated: '2026-07-18'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: cobee.io
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 10 19:46:51 2026 GMT
+  hsts: false
+- host: pre-public-api.cobee.io
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  1 23:59:59 2026 GMT
+  hsts: null
+- host: public-api.cobee.io
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  1 23:59:59 2026 GMT
+  hsts: null
+domains:
+- domain: cobee.io
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject

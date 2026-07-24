@@ -1,0 +1,32 @@
+generated: '2026-07-18'
+method: derived
+status: candidate
+source: openapi/cobee-public-api-openapi-original.json
+# No official hosted/remote MCP server was found for Cobee. This is a CANDIDATE
+# tool surface derived one-tool-per-operation from the Public API OpenAPI, to
+# seed a future MCP server. operationIds match the overlay (overlays/).
+server:
+  name: cobee
+  transport: http
+  url: null
+tools:
+  - { name: list_companies, description: List companies for the authenticated principal, source_operation: 'GET /companies (getCompanies)' }
+  - { name: register_employee, description: Register a new employee in a company, source_operation: 'POST /companies/{companyId}/employees (registerEmployee)' }
+  - { name: list_employees, description: List/filter a company's employees, source_operation: 'GET /companies/{companyId}/employees (getEmployees)' }
+  - { name: get_employee, description: Get one employee, source_operation: 'GET /companies/{companyId}/employees/{employeeId} (getEmployee)' }
+  - { name: remove_employee, description: Remove an employee, source_operation: 'DELETE /companies/{companyId}/employees/{employeeId} (removeEmployee)' }
+  - { name: update_employee, description: Update employee fields, source_operation: 'PATCH /companies/{companyId}/employees/{employeeId} (updateEmployee)' }
+  - { name: update_employee_limits, description: Update an employee's benefit limits, source_operation: 'PUT /companies/{companyId}/employees/{employeeId}/limits (updateEmployeeLimits)' }
+  - { name: block_employee, description: Block an employee, source_operation: 'PATCH /companies/{companyId}/employees/{employeeId}/block (blockEmployee)' }
+  - { name: unblock_employee, description: Unblock an employee, source_operation: 'PATCH /companies/{companyId}/employees/{employeeId}/unblock (unblockEmployee)' }
+  - { name: restore_employee, description: Restore a removed employee, source_operation: 'PATCH /companies/{companyId}/employees/{employeeId}/restore (restoreEmployee)' }
+  - { name: invite_employee, description: Send an invitation email to an employee, source_operation: 'POST /companies/{companyId}/employees/{employeeId}/invite (inviteEmployee)' }
+  - { name: migrate_employee, description: Migrate an employee between companies in the same corporation, source_operation: 'POST /companies/{companyId}/employees/{employeeId}/migrate (migrateEmployee)' }
+  - { name: list_payroll_cycles, description: List a company's payroll cycles, source_operation: 'GET /companies/{companyId}/payroll-cycles (getPayrollCycles)' }
+  - { name: close_payroll_cycle, description: Close the current payroll cycle and open a new one, source_operation: 'POST /companies/{companyId}/payroll-cycles/{payrollCycleId} (closePayrollCycle)' }
+  - { name: list_benefit_models, description: List a company's benefit models, source_operation: 'GET /companies/{companyId}/benefit-models (getBenefitModels)' }
+  - { name: get_benefit_model, description: Get one benefit model, source_operation: 'GET /companies/{companyId}/benefit-models/{benefitModelId} (getBenefitModel)' }
+  - { name: list_company_consumptions, description: List all employee consumptions for a company, source_operation: 'GET /companies/{companyId}/consumptions (getCompanyConsumptions)' }
+  - { name: list_employee_consumptions, description: List one employee's consumptions, source_operation: 'GET /companies/{companyId}/employees/{employeeId}/consumptions (getEmployeeConsumptions)' }
+  - { name: list_employee_consumptions_for_cycle, description: List an employee's consumptions for a payroll cycle, source_operation: 'GET /companies/{companyId}/payroll-cycles/{payrollCycleId}/employees/{employeeId}/consumptions (getEmployeeConsumptionsForPayrollCycle)' }
+  - { name: create_employee_consumption, description: Create an employee consumption (sandbox only), source_operation: 'POST /companies/{companyId}/payroll-cycles/{payrollCycleId}/employees/{employeeId}/consumptions (createEmployeeConsumption)' }

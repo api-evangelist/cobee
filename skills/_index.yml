@@ -1,0 +1,19 @@
+generated: '2026-07-18'
+method: generated
+source: openapi/cobee-public-api-openapi-original.json
+# Packaged Agent Skills for the Cobee by Pluxee Public API. operationIds match
+# the overlay (overlays/cobee-public-api-overlay.yaml); each maps to a real
+# method+path in the OpenAPI. No provider-published skills/AGENTS.md was found.
+skills:
+  - file: cobee-authenticate.md
+    name: Authenticate with the Cobee Public API
+    api: openapi/cobee-public-api-openapi-original.json
+    operations: [postOauthToken, getCompanies]
+  - file: cobee-onboard-employee.md
+    name: Onboard and invite an employee
+    api: openapi/cobee-public-api-openapi-original.json
+    operations: [getBenefitModels, registerEmployee, inviteEmployee, getEmployee]
+  - file: cobee-payroll-and-consumptions.md
+    name: Reconcile consumptions and close a payroll cycle
+    api: openapi/cobee-public-api-openapi-original.json
+    operations: [getPayrollCycles, getCompanyConsumptions, getEmployeeConsumptions, closePayrollCycle]

@@ -1,0 +1,45 @@
+# Cobee by Pluxee - Public API Documentation
+
+## Docs
+
+- [Get Started](https://docs.api.cobee.io/en/api-reference/api_introduction.md): Let’s get you up and running with our API!
+- [Authentication](https://docs.api.cobee.io/en/api-reference/authentication.md): Learn about how to authenticate with the API
+- [Post Oauth Token](https://docs.api.cobee.io/en/api-reference/authentication/endpoint/post_authenticate.md)
+- [Get benefit model](https://docs.api.cobee.io/en/api-reference/benefit-models/endpoint/get_benefit_model.md)
+- [List benefit models](https://docs.api.cobee.io/en/api-reference/benefit-models/endpoint/get_benefit_models.md)
+- [List companies](https://docs.api.cobee.io/en/api-reference/companies/endpoint/get_companies.md)
+- [List employee consumptions](https://docs.api.cobee.io/en/api-reference/consumptions/endpoint/get_employee_consumptions.md)
+- [[Deprecated] - List employee consumptions](https://docs.api.cobee.io/en/api-reference/consumptions/endpoint/get_employee_consumptions_old.md)
+- [Create employee consumptions](https://docs.api.cobee.io/en/api-reference/consumptions/endpoint/post_employee_consumption.md)
+- [Consumption Reports](https://docs.api.cobee.io/en/api-reference/data-models/consumption-report.md)
+- [Remove employee](https://docs.api.cobee.io/en/api-reference/employees/endpoint/delete_employee.md)
+- [Get employee](https://docs.api.cobee.io/en/api-reference/employees/endpoint/get_employee.md)
+- [Get employees](https://docs.api.cobee.io/en/api-reference/employees/endpoint/get_employees.md)
+- [Update employee](https://docs.api.cobee.io/en/api-reference/employees/endpoint/patch_employee.md): This endpoint allows you to update an existing employee's information in the Cobee system. All fields in the request body are optional, so you only need to include the fields you want to update.
+- [Block employee](https://docs.api.cobee.io/en/api-reference/employees/endpoint/patch_employee_block.md)
+- [Restore employee](https://docs.api.cobee.io/en/api-reference/employees/endpoint/patch_employee_restore.md)
+- [Unblock employee](https://docs.api.cobee.io/en/api-reference/employees/endpoint/patch_employee_unblock.md)
+- [Register employee](https://docs.api.cobee.io/en/api-reference/employees/endpoint/post_employee.md)
+- [Invite employee](https://docs.api.cobee.io/en/api-reference/employees/endpoint/post_employee_invite.md)
+- [Migrate employee](https://docs.api.cobee.io/en/api-reference/employees/endpoint/post_employee_migrate.md)
+- [How to obtain Monthly Reports](https://docs.api.cobee.io/en/api-reference/guides/how-to-obtain-monthly-reports.md)
+- [How to obtain Employee Termination Reports](https://docs.api.cobee.io/en/api-reference/guides/how-to-obtain-termination-reports.md)
+- [Get Payroll Cycles](https://docs.api.cobee.io/en/api-reference/payroll-cycles/endpoint/get_payroll_cycles.md)
+- [Close Payroll Cycle](https://docs.api.cobee.io/en/api-reference/payroll-cycles/endpoint/post_payroll_cycle.md)
+- [Glossary](https://docs.api.cobee.io/en/essentials/glossary.md)
+- [Consumptions](https://docs.api.cobee.io/en/essentials/use-cases/consumptions.md)
+- [Employees](https://docs.api.cobee.io/en/essentials/use-cases/employees.md)
+- [Overview](https://docs.api.cobee.io/en/essentials/use-cases/overview.md)
+- [Get Started](https://docs.api.cobee.io/en/get_started.md)
+- [Security](https://docs.api.cobee.io/en/security.md)
+- [Welcome](https://docs.api.cobee.io/en/welcome.md)
+
+## OpenAPI Specs
+
+- [public-openapi-bundled](https://docs.api.cobee.io/en/api-reference/public-openapi-bundled.json)
+- [openapi-bundled](https://docs.api.cobee.io/en/api-reference/openapi-bundled.json)
+- [openapi](https://docs.api.cobee.io/api-reference/openapi.json)
+
+## Optional
+
+- [Cobee Homepage](https://cobee.io/)

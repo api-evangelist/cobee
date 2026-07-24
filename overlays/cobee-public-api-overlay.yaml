@@ -1,0 +1,63 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Cobee by Pluxee Public API
+  version: 1.0.0
+# Provenance
+generated: '2026-07-18'
+method: generated
+source: openapi/cobee-public-api-openapi-original.json
+extends: openapi/cobee-public-api-openapi-original.json
+# The harvested Cobee spec ships operation summaries but no operationIds and no
+# tags. This overlay layers API Evangelist enhancements (stable operationIds and
+# resource tags) onto our derived artifacts WITHOUT mutating the original spec.
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-rating: 3
+      x-apievangelist-notes: >-
+        Clean REST spec (OpenAPI 3.0.1) with per-operation summaries and a shared
+        Error schema. Gaps for a follow-up with the provider: no operationIds, no
+        tags, no request/response examples, oauth2 token flow modeled only as an
+        http bearer scheme.
+  - target: $.paths['/oauth/token'].post
+    update: { operationId: postOauthToken, tags: [Authentication] }
+  - target: $.paths['/companies'].get
+    update: { operationId: getCompanies, tags: [Companies] }
+  - target: $.paths['/companies/{companyId}/employees'].post
+    update: { operationId: registerEmployee, tags: [Employees] }
+  - target: $.paths['/companies/{companyId}/employees'].get
+    update: { operationId: getEmployees, tags: [Employees] }
+  - target: $.paths['/companies/{companyId}/employees/{employeeId}'].get
+    update: { operationId: getEmployee, tags: [Employees] }
+  - target: $.paths['/companies/{companyId}/employees/{employeeId}'].delete
+    update: { operationId: removeEmployee, tags: [Employees] }
+  - target: $.paths['/companies/{companyId}/employees/{employeeId}'].patch
+    update: { operationId: updateEmployee, tags: [Employees] }
+  - target: $.paths['/companies/{companyId}/employees/{employeeId}/block'].patch
+    update: { operationId: blockEmployee, tags: [Employees] }
+  - target: $.paths['/companies/{companyId}/employees/{employeeId}/unblock'].patch
+    update: { operationId: unblockEmployee, tags: [Employees] }
+  - target: $.paths['/companies/{companyId}/employees/{employeeId}/restore'].patch
+    update: { operationId: restoreEmployee, tags: [Employees] }
+  - target: $.paths['/companies/{companyId}/employees/{employeeId}/limits'].put
+    update: { operationId: updateEmployeeLimits, tags: [Employees] }
+  - target: $.paths['/companies/{companyId}/employees/{employeeId}/invite'].post
+    update: { operationId: inviteEmployee, tags: [Employees] }
+  - target: $.paths['/companies/{companyId}/employees/{employeeId}/migrate'].post
+    update: { operationId: migrateEmployee, tags: [Employees] }
+  - target: $.paths['/companies/{companyId}/payroll-cycles'].get
+    update: { operationId: getPayrollCycles, tags: [Payroll Cycles] }
+  - target: $.paths['/companies/{companyId}/payroll-cycles/{payrollCycleId}'].post
+    update: { operationId: closePayrollCycle, tags: [Payroll Cycles] }
+  - target: $.paths['/companies/{companyId}/benefit-models'].get
+    update: { operationId: getBenefitModels, tags: [Benefit Models] }
+  - target: $.paths['/companies/{companyId}/benefit-models/{benefitModelId}'].get
+    update: { operationId: getBenefitModel, tags: [Benefit Models] }
+  - target: $.paths['/companies/{companyId}/consumptions'].get
+    update: { operationId: getCompanyConsumptions, tags: [Consumptions] }
+  - target: $.paths['/companies/{companyId}/employees/{employeeId}/consumptions'].get
+    update: { operationId: getEmployeeConsumptions, tags: [Consumptions] }
+  - target: $.paths['/companies/{companyId}/payroll-cycles/{payrollCycleId}/employees/{employeeId}/consumptions'].get
+    update: { operationId: getEmployeeConsumptionsForPayrollCycle, tags: [Consumptions] }
+  - target: $.paths['/companies/{companyId}/payroll-cycles/{payrollCycleId}/employees/{employeeId}/consumptions'].post
+    update: { operationId: createEmployeeConsumption, tags: [Consumptions] }

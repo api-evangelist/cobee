@@ -1,0 +1,72 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/cobee-public-api-openapi-original.json
+# Entity-relationship graph derived from OpenAPI component schemas, $ref links,
+# and id-reference fields across the Cobee Public API.
+entities:
+  - name: Corporation
+    id: id
+    summary: Top-level grouping that owns one or more companies (multi-company access via corporationId JWT claim).
+  - name: Company
+    id: id
+    other_ids: [legalId, corporationId]
+    summary: An employer tenant; the root path parameter (companyId) for nearly every operation.
+  - name: Employee
+    id: id
+    other_ids: [legalId, internalId, ssoInternalId, modelId]
+    summary: A person enrolled in a company's benefit program.
+  - name: BenefitModel
+    id: id
+    summary: A named benefits configuration (bags/allowances) assigned to employees via modelId.
+  - name: BenefitBagConfig
+    id: id
+    summary: A benefit "bag" definition inside a benefit model (per-benefit amount/limit config).
+  - name: BenefitBag
+    id: benefitBagConfigId
+    summary: An employee-level instance of a benefit bag with concrete amounts.
+  - name: PayrollCycle
+    id: payrollCycleId
+    summary: A payroll period for a company; a null end date means the cycle is currently open.
+  - name: Consumption
+    summary: A recorded employee benefit consumption, reported per company / employee / payroll cycle.
+relationships:
+  - from: Corporation
+    to: Company
+    type: has_many
+    via: corporationId
+  - from: Company
+    to: Employee
+    type: has_many
+    via: companyId
+  - from: Company
+    to: BenefitModel
+    type: has_many
+    via: companyId
+  - from: Company
+    to: PayrollCycle
+    type: has_many
+    via: companyId
+  - from: Employee
+    to: BenefitModel
+    type: belongs_to
+    via: modelId
+  - from: BenefitModel
+    to: BenefitBagConfig
+    type: has_many
+    via: $ref
+  - from: BenefitBag
+    to: BenefitBagConfig
+    type: belongs_to
+    via: benefitBagConfigId
+  - from: Consumption
+    to: Employee
+    type: belongs_to
+    via: employeeId
+  - from: Consumption
+    to: PayrollCycle
+    type: belongs_to
+    via: payrollCycleId
+notes: >-
+  Address, MonetaryAmount and WorkdayConfiguration are value objects embedded by
+  reference (Company.address, employee monetary limits, workday config) rather
+  than independently addressable entities.

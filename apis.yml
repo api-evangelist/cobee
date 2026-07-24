@@ -1,8 +1,29 @@
 aid: cobee
-name: cobee
-description: cobee is a company surfaced as a portfolio company of balderton-capital, speedinvest and
-  added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment
-  pipeline.
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cobee.png
+name: Cobee by Pluxee
+description: >-
+  Cobee is a Madrid-based flexible employee benefits and compensation platform,
+  acquired by Pluxee (Sodexo group) in 2024. It lets companies manage a modular
+  multi-benefit program (meal, transport, training, health and life insurance,
+  wellbeing and employee discounts) from a single dashboard, delivered to
+  employees through a Cobee VISA card and mobile app. Cobee exposes a REST
+  Public API (v3, OpenAPI 3.0.1) for HR and payroll integrations, covering
+  companies, employees, benefit models, payroll cycles, and benefit
+  consumptions, with OAuth 2.0 client-credentials (Auth0-issued JWT) auth and a
+  separate staging sandbox. The Public API is currently available to Spanish
+  customers, with credentials issued by the customer's Customer Success Manager.
 url: https://raw.githubusercontent.com/api-evangelist/cobee/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -13,10 +34,37 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
 tags:
 - Company
-apis: []
+- Employee Benefits
+- Compensation
+- Human Resources
+- Payroll
+- Fintech
+- Spain
+- Flexible Benefits
+apis:
+- aid: cobee:cobee-companies-api
+  name: Cobee by Pluxee Companies API
+  description: The Companies API from Cobee by Pluxee — 16 operation(s) for companies.
+  humanURL: https://docs.api.cobee.io/en/get_started
+  baseURL: https://public-api.cobee.io/api/v3
+  tags:
+  - Companies
+  properties:
+  - type: OpenAPI
+    url: openapi/cobee-companies-api-openapi.yml
+- aid: cobee:cobee-oauth-api
+  name: Cobee by Pluxee Oauth API
+  description: The Oauth API from Cobee by Pluxee — 1 operation(s) for oauth.
+  humanURL: https://docs.api.cobee.io/en/get_started
+  baseURL: https://public-api.cobee.io/api/v3
+  tags:
+  - Oauth
+  properties:
+  - type: OpenAPI
+    url: openapi/cobee-oauth-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -25,3 +73,54 @@ maintainers:
 common:
 - type: Website
   url: https://cobee.io/en/
+- type: DeveloperPortal
+  url: https://docs.api.cobee.io/en/get_started
+- type: Documentation
+  url: https://docs.api.cobee.io/
+- type: APIReference
+  url: https://docs.api.cobee.io/en/api-reference/api_introduction
+- type: GettingStarted
+  url: https://docs.api.cobee.io/en/get_started
+- type: Blog
+  url: https://cobee.io/en/blog/
+- type: Pricing
+  url: https://cobee.io/en/pricing/
+- type: Login
+  url: https://app.cobee.io/sign-in
+- type: Support
+  url: https://www.pluxee.es/helpcenter/
+- type: TermsOfService
+  url: https://cobee.io/en/terms-condition/
+- type: PrivacyPolicy
+  url: https://cobee.io/en/privacy-policy/
+- type: LLMsTxt
+  url: llms/cobee-llms.txt
+- type: Authentication
+  url: authentication/cobee-authentication.yml
+- type: Conventions
+  url: conventions/cobee-conventions.yml
+- type: ErrorCatalog
+  url: errors/cobee-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/cobee-lifecycle.yml
+- type: DataModel
+  url: data-model/cobee-data-model.yml
+- type: Sandbox
+  url: sandbox/cobee-sandbox.yml
+- type: MCPServer
+  url: mcp/cobee-mcp.yml
+- type: Conformance
+  url: conformance/cobee-conformance.yml
+- type: TrustCenter
+  url: security/cobee-trust-center.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: AgenticAccess
+  url: agentic-access/cobee-agentic-access.yml
+- type: DomainSecurity
+  url: security/cobee-domain-security.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

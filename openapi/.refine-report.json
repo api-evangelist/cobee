@@ -1,0 +1,16 @@
+{
+  "provider": "cobee",
+  "sources": [
+    "cobee-companies-api-openapi.yml",
+    "cobee-oauth-api-openapi.yml"
+  ],
+  "outputs": [
+    "cobee-companies-api-openapi.yml",
+    "cobee-oauth-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

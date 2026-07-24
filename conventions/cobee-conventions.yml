@@ -1,0 +1,49 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.api.cobee.io/en/api-reference/api_introduction
+docs: https://docs.api.cobee.io/en/get_started
+# Cross-cutting request/response semantics for the Cobee by Pluxee Public API,
+# searched from the developer docs and derived from the OpenAPI.
+authentication:
+  style: OAuth 2.0 Client Credentials -> bearer JWT
+  token_endpoint: POST /oauth/token
+  credentials: clientId + clientSecret (issued by Customer Success Manager)
+  header: 'Authorization: Bearer <jwt>'
+  token_format: JWT signed RS256, validated against Auth0 public keys
+  token_claims: [companyId, corporationId]
+  see: authentication/cobee-authentication.yml
+versioning:
+  scheme: uri-path
+  current: v3
+  base_path: /api/v3
+  notes: Version pinned in the server URL (public-api.cobee.io/api/v3). No date or header versioning observed.
+idempotency:
+  supported: false
+  notes: No Idempotency-Key header or idempotent-retry contract documented or present in the spec.
+pagination:
+  style: filter-based
+  notes: >-
+    List endpoints are narrowed by resource filters rather than cursor/offset
+    pagination. Employees list accepts email, legalId, internalId, state filters;
+    consumptions accept payrollCycleId, format, categories, groupBy. No documented
+    page/cursor tokens or Link headers.
+content_negotiation:
+  notes: Consumptions endpoints accept an Accept header and a format query param to select report representations.
+error_envelope:
+  format: custom
+  media_type: application/json
+  shape: '{ error: integer, message: string }'
+  see: errors/cobee-problem-types.yml
+rate_limiting:
+  documented: false
+  notes: No rate-limit headers or quota policy documented in the public docs.
+tracing:
+  request_id: not documented
+availability:
+  environments:
+    - name: staging
+      host: https://pre-public-api.cobee.io/api/v3
+    - name: production
+      host: https://public-api.cobee.io/api/v3
+  see: sandbox/cobee-sandbox.yml
+scope_of_availability: 'Public API currently available for Spanish customers only.'

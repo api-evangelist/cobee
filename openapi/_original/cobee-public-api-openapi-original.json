@@ -1,0 +1,3237 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Public API",
+    "description": "Public API definition where you can check the documentation for the different available operations to integrate with the platform.",
+    "license": {
+      "name": "MIT"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://pre-public-api.cobee.io/api/v3"
+    },
+    {
+      "url": "https://public-api.cobee.io/api/v3"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/companies/{companyId}/employees/{employeeId}/limits": {
+      "put": {
+        "summary": "Set employee limits",
+        "description": "Sets the employee limits for all the benefits defined by the partner",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "The company identifier"
+          },
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "The employee identifier"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "meal": {
+                    "type": "object",
+                    "required": [
+                      "amount"
+                    ],
+                    "properties": {
+                      "amount": {
+                        "type": "object",
+                        "required": [
+                          "amountInCents",
+                          "currency"
+                        ],
+                        "properties": {
+                          "amountInCents": {
+                            "type": "integer"
+                          },
+                          "currency": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "transport": {
+                    "type": "object",
+                    "required": [
+                      "amount"
+                    ],
+                    "properties": {
+                      "amount": {
+                        "type": "object",
+                        "required": [
+                          "amountInCents",
+                          "currency"
+                        ],
+                        "properties": {
+                          "amountInCents": {
+                            "type": "integer"
+                          },
+                          "currency": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "nursery": {
+                    "type": "object",
+                    "required": [
+                      "amount"
+                    ],
+                    "properties": {
+                      "amount": {
+                        "type": "object",
+                        "required": [
+                          "amountInCents",
+                          "currency"
+                        ],
+                        "properties": {
+                          "amountInCents": {
+                            "type": "integer"
+                          },
+                          "currency": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Limits successfully set"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Invalid employeeId"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "invalid_token"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Company does not belong to the specified partner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Company does not belong to the specified partner"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/oauth/token": {
+      "post": {
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authentication successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string",
+                      "description": "Token to be used in the Authorization header on subsequent requests",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMywiZXhwIjoxNzEwNjU1MjAwfQ.NDCEZZKZ7v8bIh_vO8ht51EepUuCOZBIX8DVXy5eVhA"
+                    },
+                    "tokenType": {
+                      "type": "string",
+                      "description": "Type of token",
+                      "example": "Bearer"
+                    },
+                    "expiresIn": {
+                      "type": "integer",
+                      "description": "The number of seconds until the token expires",
+                      "example": 86400
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - The request body is invalid or missing required fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "body: must have required property 'clientId'"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorised - Authentication failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Invalid credentials"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies": {
+      "get": {
+        "summary": "Get all companies associated with the authenticated user",
+        "parameters": [
+          {
+            "name": "legalId",
+            "in": "query",
+            "required": false,
+            "description": "Company CIF(s) to filter by. Can be a single CIF or multiple CIFs separated by commas",
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
+            "example": "B12345678,B87654321"
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "description": "Company state to filter by",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "active"
+              ]
+            },
+            "example": "active"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "New response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "companies": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Company"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorised - Authentication failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/{companyId}/employees": {
+      "post": {
+        "summary": "Register employee",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the company",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890"
+          }
+        ],
+        "requestBody": {
+          "description": "Employee data to be registered",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterEmployeeRequest"
+              },
+              "example": {
+                "email": "john.smith@example.com",
+                "legalId": "12345678Z",
+                "name": "John",
+                "surname": "Smith",
+                "birthDate": "1985-07-15",
+                "grossSalary": {
+                  "amountInCents": 4500000,
+                  "currency": "EUR"
+                },
+                "hiringDate": "2023-01-10",
+                "taxRegime": "general",
+                "workdayConfiguration": {
+                  "daysPerMonth": 22,
+                  "workTimePercentage": 100,
+                  "numberOfPaychecks": 14,
+                  "collectiveAgreementSalary": {
+                    "amountInCents": 3800000,
+                    "currency": "EUR"
+                  }
+                },
+                "internalId": "EMP-1234",
+                "costCenter": "Finance",
+                "payrollCompany": "Main Branch",
+                "modelId": "7a6c9ab8-8c2d-5c82-9c8c-f5e7e7e7e7e7",
+                "metadata": {
+                  "department": "Finance",
+                  "manager": "Jane Doe",
+                  "office": "Madrid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Employee successfully registered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterEmployeeResponse"
+                },
+                "example": {
+                  "id": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - The request body is invalid or missing required fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Invalid request: 'email' field is required"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorised - Authentication failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Invalid API key"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - You don't have permission to register employees",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Your API key does not have permission to register employees"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The company ID was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Company with ID 'a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890' not found"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict - An employee with the same email or legal ID already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "An employee with email 'john.smith@example.com' already exists"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Something went wrong on our end",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Internal server error: Unable to process request"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get employees",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the company",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890"
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "required": false,
+            "description": "Employee email to filter by",
+            "schema": {
+              "type": "string",
+              "format": "email"
+            },
+            "example": "john.smith@example.com"
+          },
+          {
+            "name": "legalId",
+            "in": "query",
+            "required": false,
+            "description": "Employee legal ID to filter by",
+            "schema": {
+              "type": "string"
+            },
+            "example": "12345678Z"
+          },
+          {
+            "name": "internalId",
+            "in": "query",
+            "required": false,
+            "description": "Employee internal ID to filter by",
+            "schema": {
+              "type": "string"
+            },
+            "example": "EMP-1234"
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "description": "Employee state to filter by",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "not-active",
+                "active",
+                "removed",
+                "blocked"
+              ]
+            },
+            "example": "active"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Employees successfully retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "employees": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Employee"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Something went wrong on our end",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/{companyId}/employees/{employeeId}": {
+      "get": {
+        "summary": "Get employee",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the company",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890"
+          },
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the employee",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Employee successfully retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Employee"
+                },
+                "example": {
+                  "id": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8",
+                  "email": "john.smith@example.com",
+                  "legalId": "12345678Z",
+                  "name": "John",
+                  "surname": "Smith",
+                  "birthDate": "1985-07-15",
+                  "grossSalary": {
+                    "amountInCents": 4500000,
+                    "currency": "EUR"
+                  },
+                  "hiringDate": "2023-01-10",
+                  "taxRegime": "general",
+                  "workdayConfiguration": {
+                    "daysPerMonth": 22,
+                    "workTimePercentage": 100,
+                    "numberOfPaychecks": 14,
+                    "collectiveAgreementSalary": {
+                      "amountInCents": 3800000,
+                      "currency": "EUR"
+                    }
+                  },
+                  "internalId": "EMP-1234",
+                  "costCenter": "Finance",
+                  "payrollCompany": "Main Branch",
+                  "modelId": "7a6c9ab8-8c2d-5c82-9c8c-f5e7e7e7e7e7",
+                  "metadata": {
+                    "department": "Finance",
+                    "manager": "Jane Doe",
+                    "office": "Madrid"
+                  },
+                  "state": "active"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The employee ID was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Employee not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Something went wrong on our end",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove employee",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the company",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890"
+          },
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the employee",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Employee successfully removed"
+          },
+          "404": {
+            "description": "Not Found - The employee ID was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Employee not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Something went wrong on our end",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update employee",
+        "description": "This endpoint allows you to update an existing employee's information in the Cobee system. All fields in the request body are optional, so you only need to include the fields you want to update.",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the company",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890"
+          },
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the employee",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8"
+          }
+        ],
+        "requestBody": {
+          "description": "Employee data to be updated",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEmployeeRequest"
+              },
+              "example": {
+                "email": "john.smith.updated@example.com",
+                "name": "John",
+                "surname": "Smith",
+                "birthDate": "1985-07-15",
+                "grossSalary": {
+                  "amountInCents": 4500000,
+                  "currency": "EUR"
+                },
+                "hiringDate": "2023-01-10",
+                "taxRegime": "general",
+                "workdayConfiguration": {
+                  "daysPerMonth": 22,
+                  "workTimePercentage": 100,
+                  "numberOfPaychecks": 14,
+                  "collectiveAgreementSalary": {
+                    "amountInCents": 3800000,
+                    "currency": "EUR"
+                  }
+                },
+                "internalId": "EMP-1234",
+                "costCenter": "Finance",
+                "payrollCompany": "Main Branch",
+                "metadata": {
+                  "department": "Finance",
+                  "manager": "Jane Doe",
+                  "office": "Madrid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Employee successfully updated"
+          },
+          "404": {
+            "description": "Not Found - The employee ID was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Employee not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Something went wrong on our end",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/{companyId}/employees/{employeeId}/block": {
+      "patch": {
+        "summary": "Block employee",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the company",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890"
+          },
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the employee",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Employee successfully blocked"
+          },
+          "404": {
+            "description": "Not Found - The employee ID was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Employee not found"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The employee cannot be blocked because they are not in a valid state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Employee with invalid state removed"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Something went wrong on our end",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/{companyId}/employees/{employeeId}/unblock": {
+      "patch": {
+        "summary": "Unblock employee",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the company",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890"
+          },
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the employee",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Employee successfully unblocked"
+          },
+          "404": {
+            "description": "Not Found - The employee ID was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Employee not found"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The employee cannot be unblocked because they are not in a valid state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Employee with invalid state active"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Something went wrong on our end",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/{companyId}/employees/{employeeId}/restore": {
+      "patch": {
+        "summary": "Restore employee",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the company",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890"
+          },
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the employee",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Employee successfully restored"
+          },
+          "404": {
+            "description": "Not Found - The employee ID was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Employee not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Something went wrong on our end",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/{companyId}/employees/{employeeId}/invite": {
+      "post": {
+        "summary": "Send invitation email to an employee",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the company",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890"
+          },
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the employee",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Invitation email sent successfully"
+          },
+          "404": {
+            "description": "Not Found - The employee ID was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Employee not found"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The employee has already been invited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Employee with invalid state active"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Malformed URL",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "employeeId does not match any of the allowed types"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Something went wrong on our end",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/{companyId}/employees/{employeeId}/migrate": {
+      "post": {
+        "summary": "Migrates an employee from one company to another within the same corporation",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the company",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890"
+          },
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the employee",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8"
+          }
+        ],
+        "requestBody": {
+          "description": "Employee data neeeded for the new company",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MigrateEmployeeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The employee was already on the destination company. No migration was needed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "description": "The unique identifier of the employee"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Employee migrated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "description": "The unique identifier of the employee"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The employee ID was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Employee not found"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Malformed URL",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "employeeId does not match any of the allowed types"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Something went wrong on our end",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/{companyId}/payroll-cycles": {
+      "get": {
+        "summary": "Get the payroll cycles of a company. A null value on the end date means that the cycle is currently open.",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the company",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payroll cycles successfully retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "payrollCycles": {
+                      "description": "List of the company Payroll Cycles",
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "id",
+                          "start",
+                          "end",
+                          "fiscalYear",
+                          "payrollMonth"
+                        ],
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "The unique identifier of the payroll cycle."
+                          },
+                          "start": {
+                            "type": "integer",
+                            "description": "The start date for the payroll cycle, in timestamp format.",
+                            "format": "timestamp",
+                            "example": 1672531200
+                          },
+                          "end": {
+                            "type": "integer",
+                            "nullable": true,
+                            "description": "The end date for the payroll cycle, in timestamp format. A Null value is returned if the cycle is currently open.",
+                            "example": 1675123200
+                          },
+                          "fiscalYear": {
+                            "type": "string",
+                            "description": "The fiscal year of the payroll cycle.",
+                            "example": "2023"
+                          },
+                          "payrollMonth": {
+                            "type": "string",
+                            "description": "The month of the payroll cycle in MM format (e.g., '03' for March).",
+                            "pattern": "^[0-9]{2}$",
+                            "example": "03"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The company ID was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Company not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/{companyId}/payroll-cycles/{payrollCycleId}": {
+      "post": {
+        "summary": "Close the current payroll cycle and open a new one.",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the company",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "dfe4e8a9-ff19-4b3b-953a-2d64c6e88539"
+          },
+          {
+            "name": "payrollCycleId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the payroll cycle",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "dfe4e8a9-ff19-4b3b-953a-2d64c6e88539"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payroll Cycle successfully closed",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Payroll Cycle successfully closed"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Invalid request: 'payrollCycleId' field is required"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorised - Authentication failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Unauthorised"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The payroll cycle ID was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Payroll cycle not found"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Payroll cycle already closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Payroll cycle already closed"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Something went wrong on our end",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Internal server error: Unable to process request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/{companyId}/benefit-models": {
+      "get": {
+        "deprecated": true,
+        "summary": "Get all benefit models for a the company",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the company",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of benefit models successfully retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "benefitModels"
+                  ],
+                  "properties": {
+                    "benefitModels": {
+                      "description": "List of benefit models",
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/BenefitModel"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorised - Authentication failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/{companyId}/benefit-models/{benefitModelId}": {
+      "get": {
+        "deprecated": true,
+        "summary": "Get the information of a benefit model",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the company",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890"
+          },
+          {
+            "name": "benefitModelId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the benefit model",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Benefit model successfully retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BenefitModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorised - Authentication failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The benefit model ID was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Benefit Model not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Something went wrong on our end",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/{companyId}/consumptions": {
+      "get": {
+        "summary": "Find all employee consumptions for a specific company",
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "description": "The response file type. It can be `application/json` or `text/csv`.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/json",
+                "text/csv"
+              ]
+            }
+          },
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the company",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "payrollCycleId",
+            "in": "query",
+            "required": false,
+            "description": "The unique identifier of the payroll cycle. If not provided, the open payroll cycle will be used.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "description": "The format of the resulting consumptions.\n - `lines`: as many lines as grouping benefits for each employee\n - `columns`: one line for each employee and as many columns as grouping benefits",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "lines",
+                "columns"
+              ]
+            }
+          },
+          {
+            "name": "categories",
+            "in": "query",
+            "required": false,
+            "description": "List of benefit categories to include in the response, which will return them in the same order as requested.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "required": false,
+            "description": "Consumptions can be grouped to return data that is more similar to how your system works. The consumptions can be grouped by:\n - `category`: it will calculate the sum of expenses minus withdrawals for all the consumptions in a category,\n - `category,behaviour`: sum of all expenses minus withdrawals for all the consumptions in category and behaviour.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "category",
+                "category,behaviour"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Company employees consumptions successfully retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "company",
+                    "payrollCycle",
+                    "employees"
+                  ],
+                  "properties": {
+                    "company": {
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "legalId",
+                        "currency"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "The unique identifier of the company.",
+                          "format": "uuid",
+                          "example": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890"
+                        },
+                        "legalId": {
+                          "type": "string",
+                          "description": "The company's legal id",
+                          "example": "B12345678"
+                        },
+                        "currency": {
+                          "type": "string",
+                          "description": "The currency code (e.g., EUR)",
+                          "example": "EUR"
+                        }
+                      }
+                    },
+                    "payrollCycle": {
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "start",
+                        "end",
+                        "fiscalYear",
+                        "payrollMonth"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "The unique identifier of the payroll cycle.",
+                          "format": "uuid",
+                          "example": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8"
+                        },
+                        "start": {
+                          "type": "integer",
+                          "description": "The start date for the payroll cycle, in timestamp format.",
+                          "format": "timestamp",
+                          "example": 1672531200
+                        },
+                        "end": {
+                          "type": "integer",
+                          "nullable": true,
+                          "description": "The end date for the payroll cycle, in timestamp format. A Null value is returned if the cycle is currently open.",
+                          "example": 1675123200
+                        },
+                        "fiscalYear": {
+                          "type": "string",
+                          "description": "The fiscal year of the payroll cycle.",
+                          "example": "2023"
+                        },
+                        "payrollMonth": {
+                          "type": "string",
+                          "description": "The month of the payroll cycle in MM format (e.g., '03' for March).",
+                          "pattern": "^[0-9]{2}$",
+                          "example": "03"
+                        }
+                      }
+                    },
+                    "employees": {
+                      "type": "array",
+                      "description": "List of employees",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "employeeId",
+                          "internalId",
+                          "legalId",
+                          "consumptions"
+                        ],
+                        "properties": {
+                          "employeeId": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The unique identifier of the employee",
+                            "example": "dd3de3a0-f903-42a0-b729-4cb16f185bc6"
+                          },
+                          "internalId": {
+                            "type": "string",
+                            "description": "The unique identifier of the employee in the client's system",
+                            "example": "12345"
+                          },
+                          "legalId": {
+                            "type": "string",
+                            "description": "The employee's legal id",
+                            "example": "129387655X"
+                          },
+                          "consumptions": {
+                            "type": "array",
+                            "description": "List of employee consumptions",
+                            "items": {
+                              "type": "object",
+                              "required": [
+                                "behaviour",
+                                "category",
+                                "sumType",
+                                "amountInCents"
+                              ],
+                              "properties": {
+                                "behaviour": {
+                                  "type": "string",
+                                  "description": "The behaviour type of the consumption",
+                                  "enum": [
+                                    "allowance",
+                                    "allowance-not-exempt",
+                                    "flex",
+                                    "flex-not-exempt"
+                                  ],
+                                  "example": "allowance"
+                                },
+                                "category": {
+                                  "type": "string",
+                                  "description": "The category of the consumption",
+                                  "enum": [
+                                    "any",
+                                    "capitalization-benefit",
+                                    "claps-benefit",
+                                    "education-benefit",
+                                    "gym-benefit",
+                                    "health-insurance-benefit",
+                                    "home-office-benefit",
+                                    "individual-capitalization-benefit",
+                                    "it-product-benefit",
+                                    "life-insurance-benefit",
+                                    "meal-benefit",
+                                    "nursery-benefit",
+                                    "pension-plan-benefit",
+                                    "renting-benefit",
+                                    "retirement-insurance-benefit",
+                                    "transport-benefit",
+                                    "unknown",
+                                    "wellness-benefit"
+                                  ],
+                                  "example": "meal-benefit"
+                                },
+                                "sumType": {
+                                  "type": "string",
+                                  "description": "The sum type of the consumption",
+                                  "enum": [
+                                    "expenses",
+                                    "withdrawn"
+                                  ],
+                                  "example": "expenses"
+                                },
+                                "amountInCents": {
+                                  "type": "integer",
+                                  "description": "The monetary amount in cents (e.g., 4500000 for 45,000)",
+                                  "minimum": 0
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "company": {
+                    "id": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890",
+                    "legalId": "B12345678",
+                    "currency": "EUR"
+                  },
+                  "payrollCycle": {
+                    "id": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8",
+                    "start": 1672531200,
+                    "end": 1675123200,
+                    "fiscalYear": "2023",
+                    "payrollMonth": "03"
+                  },
+                  "employees": [
+                    {
+                      "employeeId": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8",
+                      "internalId": "12345",
+                      "legalId": "129387655X",
+                      "consumptions": [
+                        {
+                          "behaviour": "allowance",
+                          "category": "meal-benefit",
+                          "sumType": "expenses",
+                          "amountInCents": 4500000
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The employee, company, or payroll cycle was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Resource not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Something went wrong on our end",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/{companyId}/employees/{employeeId}/consumptions": {
+      "get": {
+        "summary": "Find employee consumptions for a specific payroll cycle",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the company",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890"
+          },
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the employee",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "description": "The response file type. It can be `application/json` or `text/csv`.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/json",
+                "text/csv"
+              ]
+            }
+          },
+          {
+            "name": "payrollCycleId",
+            "in": "query",
+            "required": false,
+            "description": "The unique identifier of the payroll cycle. If not provided, the open payroll cycle will be used.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "description": "The format of the resulting consumptions request. Lines: as many lines as benefits for each employee, Columns: one line for each employee and as many columns as benefits",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "lines",
+                "columns"
+              ]
+            }
+          },
+          {
+            "name": "categories",
+            "in": "query",
+            "required": false,
+            "description": "List of benefit categories to include in the response, which will return them in the same order as requested.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Employee consumptions successfully retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "company",
+                    "payrollCycle",
+                    "employee",
+                    "consumptions"
+                  ],
+                  "properties": {
+                    "company": {
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "legalId",
+                        "currency"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "The unique identifier of the company.",
+                          "format": "uuid",
+                          "example": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890"
+                        },
+                        "legalId": {
+                          "type": "string",
+                          "description": "The company's legal id",
+                          "example": "B12345678"
+                        },
+                        "currency": {
+                          "type": "string",
+                          "description": "The currency code (e.g., EUR)",
+                          "example": "EUR"
+                        }
+                      }
+                    },
+                    "payrollCycle": {
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "start",
+                        "end",
+                        "fiscalYear",
+                        "payrollMonth"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "The unique identifier of the payroll cycle.",
+                          "format": "uuid",
+                          "example": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8"
+                        },
+                        "start": {
+                          "type": "integer",
+                          "description": "The start date for the payroll cycle, in timestamp format.",
+                          "format": "timestamp",
+                          "example": 1672531200
+                        },
+                        "end": {
+                          "type": "integer",
+                          "nullable": true,
+                          "description": "The end date for the payroll cycle, in timestamp format. A Null value is returned if the cycle is currently open.",
+                          "example": 1675123200
+                        },
+                        "fiscalYear": {
+                          "type": "string",
+                          "description": "The fiscal year of the payroll cycle.",
+                          "example": "2023"
+                        },
+                        "payrollMonth": {
+                          "type": "string",
+                          "description": "The month of the payroll cycle in MM format (e.g., '03' for March).",
+                          "pattern": "^[0-9]{2}$",
+                          "example": "03"
+                        }
+                      }
+                    },
+                    "employee": {
+                      "type": "object",
+                      "description": "Employee",
+                      "properties": {
+                        "employeeId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "The unique identifier of the employee",
+                          "example": "dd3de3a0-f903-42a0-b729-4cb16f185bc6"
+                        },
+                        "internalId": {
+                          "type": "string",
+                          "description": "The unique identifier of the employee in the client's system",
+                          "example": "12345"
+                        },
+                        "legalId": {
+                          "type": "string",
+                          "description": "The employee's legal id",
+                          "example": "129387655X"
+                        }
+                      }
+                    },
+                    "consumptions": {
+                      "type": "array",
+                      "description": "List of employee consumptions",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "behaviour",
+                          "category",
+                          "sumType",
+                          "amountInCents"
+                        ],
+                        "properties": {
+                          "behaviour": {
+                            "type": "string",
+                            "description": "The behaviour type of the consumption",
+                            "enum": [
+                              "allowance",
+                              "allowance-not-exempt",
+                              "flex",
+                              "flex-not-exempt"
+                            ],
+                            "example": "allowance"
+                          },
+                          "category": {
+                            "type": "string",
+                            "description": "The category of the consumption",
+                            "enum": [
+                              "any",
+                              "capitalization-benefit",
+                              "claps-benefit",
+                              "education-benefit",
+                              "gym-benefit",
+                              "health-insurance-benefit",
+                              "home-office-benefit",
+                              "individual-capitalization-benefit",
+                              "it-product-benefit",
+                              "life-insurance-benefit",
+                              "meal-benefit",
+                              "nursery-benefit",
+                              "pension-plan-benefit",
+                              "renting-benefit",
+                              "retirement-insurance-benefit",
+                              "transport-benefit",
+                              "unknown",
+                              "wellness-benefit"
+                            ],
+                            "example": "meal-benefit"
+                          },
+                          "sumType": {
+                            "type": "string",
+                            "description": "The sum type of the consumption",
+                            "enum": [
+                              "expenses",
+                              "withdrawn"
+                            ],
+                            "example": "expenses"
+                          },
+                          "amountInCents": {
+                            "type": "integer",
+                            "description": "The monetary amount in cents (e.g., 4500000 for 45,000)",
+                            "minimum": 0
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The employee, company, or payroll cycle was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Resource not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Something went wrong on our end",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/{companyId}/payroll-cycles/{payrollCycleId}/employees/{employeeId}/consumptions": {
+      "get": {
+        "deprecated": true,
+        "summary": "Find employee consumptions for a specific payroll cycle",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the company",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890"
+          },
+          {
+            "name": "payrollCycleId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the payroll cycle",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8"
+          },
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the employee",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Employee consumptions successfully retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "consumptions"
+                  ],
+                  "properties": {
+                    "consumptions": {
+                      "type": "array",
+                      "description": "List of employee consumptions",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "behaviour",
+                          "category",
+                          "sumType",
+                          "amount"
+                        ],
+                        "properties": {
+                          "behaviour": {
+                            "type": "string",
+                            "description": "The behaviour type of the consumption",
+                            "enum": [
+                              "allowance",
+                              "allowance-not-exempt",
+                              "flex",
+                              "flex-not-exempt"
+                            ],
+                            "example": "allowance"
+                          },
+                          "category": {
+                            "type": "string",
+                            "description": "The category of the consumption",
+                            "enum": [
+                              "any",
+                              "capitalization-benefit",
+                              "claps-benefit",
+                              "education-benefit",
+                              "gym-benefit",
+                              "health-insurance-benefit",
+                              "home-office-benefit",
+                              "individual-capitalization-benefit",
+                              "it-product-benefit",
+                              "life-insurance-benefit",
+                              "meal-benefit",
+                              "nursery-benefit",
+                              "pension-plan-benefit",
+                              "renting-benefit",
+                              "retirement-insurance-benefit",
+                              "transport-benefit",
+                              "unknown",
+                              "wellness-benefit"
+                            ],
+                            "example": "meal-benefit"
+                          },
+                          "sumType": {
+                            "type": "string",
+                            "description": "The sum type of the consumption",
+                            "enum": [
+                              "expenses",
+                              "withdrawn"
+                            ],
+                            "example": "expenses"
+                          },
+                          "amount": {
+                            "$ref": "#/components/schemas/MonetaryAmount",
+                            "description": "The amount of the consumption"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The employee, company, or payroll cycle was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Resource not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Something went wrong on our end",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a new employee consumption. **Note:** This endpoint is **only available** in the **sandbox** environment. ",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the company",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890"
+          },
+          {
+            "name": "payrollCycleId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the payroll cycle",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "dfe4e8a9-ff19-4b3b-953a-2d64c6e88539"
+          },
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the employee",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8"
+          }
+        ],
+        "requestBody": {
+          "description": "Data for the employee consumption",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateConsumptionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Consumption successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterEmployeeResponse"
+                },
+                "example": {
+                  "id": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - The request body is invalid or missing required fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Invalid request: 'payrollCycleId' field is required"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorised - Authentication failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Invalid API key"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The company ID was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Company with ID 'a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890' not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Something went wrong on our end",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Internal server error: Unable to process request"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AuthenticateRequest": {
+        "type": "object",
+        "required": [
+          "clientId",
+          "clientSecret"
+        ],
+        "properties": {
+          "clientId": {
+            "type": "string",
+            "description": "Client ID"
+          },
+          "clientSecret": {
+            "type": "string",
+            "description": "Client Secret"
+          }
+        }
+      },
+      "Company": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The unique identifier of the company"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the company"
+          },
+          "legalId": {
+            "type": "string",
+            "description": "The legal identification number of the company"
+          },
+          "legalName": {
+            "type": "string",
+            "description": "The legal name of the company"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "active"
+            ],
+            "description": "The state of the company"
+          },
+          "contactEmail": {
+            "type": "string",
+            "format": "email",
+            "description": "The contact email of the company"
+          },
+          "corporationId": {
+            "type": "string",
+            "nullable": true,
+            "description": "The corporation ID if applicable, otherwise null"
+          },
+          "countryISO2Code": {
+            "type": "string",
+            "description": "The two-letter ISO code of the company's country"
+          },
+          "deliveryAddress": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "legalAddress": {
+            "$ref": "#/components/schemas/Address"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "legalId",
+          "legalName",
+          "state",
+          "contactEmail",
+          "countryISO2Code",
+          "deliveryAddress",
+          "legalAddress"
+        ]
+      },
+      "Corporation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The unique identifier of the corporation"
+          },
+          "alias": {
+            "type": "string",
+            "description": "The alias / name of the corporation"
+          },
+          "externalId": {
+            "type": "string",
+            "description": "The external ID of the corporation"
+          },
+          "companies": {
+            "type": "array",
+            "description": "List of companies belonging to this corporation",
+            "items": {
+              "$ref": "#/components/schemas/Company"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "alias",
+          "externalId",
+          "companies"
+        ]
+      },
+      "Address": {
+        "type": "object",
+        "properties": {
+          "streetName": {
+            "type": "string",
+            "description": "The name of the street"
+          },
+          "streetNumber": {
+            "type": "string",
+            "description": "The number of the building"
+          },
+          "details": {
+            "type": "string",
+            "nullable": true,
+            "description": "Additional address details, if any"
+          },
+          "street": {
+            "type": "string",
+            "description": "Full formatted street address"
+          },
+          "postalCode": {
+            "type": "string",
+            "description": "The postal code of the address"
+          },
+          "province": {
+            "type": "string",
+            "description": "The province or state of the address"
+          },
+          "locality": {
+            "type": "string",
+            "description": "The city or town of the address"
+          },
+          "district": {
+            "type": "string",
+            "nullable": true,
+            "description": "The district of the address, if applicable"
+          }
+        },
+        "required": [
+          "streetName",
+          "streetNumber",
+          "street",
+          "postalCode",
+          "province",
+          "locality"
+        ]
+      },
+      "Error": {
+        "required": [
+          "error",
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "message": "Bad request: Invalid field value"
+        }
+      },
+      "MonetaryAmount": {
+        "type": "object",
+        "required": [
+          "amountInCents",
+          "currency"
+        ],
+        "properties": {
+          "amountInCents": {
+            "type": "integer",
+            "description": "The monetary amount in cents (e.g., 4500000 for 45,000)",
+            "minimum": 0
+          },
+          "currency": {
+            "type": "string",
+            "description": "The currency code (e.g., EUR)",
+            "example": "EUR"
+          }
+        },
+        "example": {
+          "amountInCents": 4500000,
+          "currency": "EUR"
+        }
+      },
+      "WorkdayConfiguration": {
+        "type": "object",
+        "required": [
+          "daysPerMonth",
+          "workTimePercentage",
+          "numberOfPaychecks"
+        ],
+        "properties": {
+          "daysPerMonth": {
+            "type": "integer",
+            "description": "The number of working days per month for this employee",
+            "example": 22
+          },
+          "workTimePercentage": {
+            "type": "number",
+            "description": "The percentage of a full-time schedule this employee works",
+            "minimum": 0.01,
+            "maximum": 100,
+            "example": 100
+          },
+          "numberOfPaychecks": {
+            "type": "integer",
+            "description": "The number of salary payments the employee receives per year",
+            "example": 14
+          },
+          "collectiveAgreementSalary": {
+            "$ref": "#/components/schemas/MonetaryAmount",
+            "description": "The salary established by the collective agreement, if applicable"
+          }
+        },
+        "example": {
+          "daysPerMonth": 22,
+          "workTimePercentage": 100,
+          "numberOfPaychecks": 14,
+          "collectiveAgreementSalary": {
+            "amountInCents": 3800000,
+            "currency": "EUR"
+          }
+        }
+      },
+      "BenefitModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The identifier of the benefit model"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the benefit model"
+          },
+          "benefitBagConfigs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BenefitBagConfig"
+            }
+          }
+        }
+      },
+      "BenefitBagConfig": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The identifier of the benefit bag configuration"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the benefit bag configuration"
+          },
+          "allowedFor": {
+            "type": "array",
+            "description": "The benefits this configuration can be applied to",
+            "items": {
+              "enum": [
+                "education-benefit",
+                "gift-card-benefit",
+                "gym-benefit",
+                "health-insurance-benefit",
+                "home-office-benefit",
+                "individual-capitalization-benefit",
+                "it-product-benefit",
+                "life-insurance-benefit",
+                "meal-benefit",
+                "nursery-benefit",
+                "pension-plan-benefit",
+                "renting-benefit",
+                "retirement-insurance-benefit",
+                "transport-benefit",
+                "unknown",
+                "wellness-benefit",
+                "claps-benefit",
+                "capitalization-benefit"
+              ]
+            }
+          },
+          "consumableFrom": {
+            "type": "string",
+            "format": "date",
+            "description": "The date from which the benefit bag can be consumed"
+          },
+          "limitAmount": {
+            "$ref": "#/components/schemas/MonetaryAmount"
+          }
+        }
+      },
+      "BenefitBagAmount": {
+        "type": "object",
+        "required": [
+          "amountInCents",
+          "currency"
+        ],
+        "properties": {
+          "amountInCents": {
+            "type": "integer",
+            "description": "The monetary amount in cents",
+            "minimum": 0
+          },
+          "currency": {
+            "type": "string",
+            "description": "The currency code for the amount"
+          }
+        },
+        "example": {
+          "amountInCents": 120000,
+          "currency": "EUR"
+        }
+      },
+      "BenefitBag": {
+        "type": "object",
+        "required": [
+          "benefitBagConfigId",
+          "amount",
+          "consumableFrom"
+        ],
+        "properties": {
+          "benefitBagConfigId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The identifier of the benefit bag configuration"
+          },
+          "amount": {
+            "$ref": "#/components/schemas/BenefitBagAmount",
+            "description": "The monetary amount details assigned to this benefit bag"
+          },
+          "consumableFrom": {
+            "type": "string",
+            "format": "date",
+            "description": "The date from which the benefit bag can be consumed"
+          }
+        },
+        "example": {
+          "benefitBagConfigId": "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
+          "amount": {
+            "amountInCents": 120000,
+            "currency": "EUR"
+          },
+          "consumableFrom": "2023-02-01"
+        }
+      },
+      "RegisterEmployeeRequest": {
+        "type": "object",
+        "required": [
+          "email",
+          "legalId",
+          "name",
+          "surname",
+          "birthDate",
+          "grossSalary",
+          "hiringDate",
+          "taxRegime",
+          "workdayConfiguration"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "The employee's email address"
+          },
+          "legalId": {
+            "type": "string",
+            "description": "The employee's legal identifier"
+          },
+          "name": {
+            "type": "string",
+            "description": "The employee's first name"
+          },
+          "surname": {
+            "type": "string",
+            "description": "The employee's surname"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date",
+            "description": "The employee's date of birth in ISO 8601 format (YYYY-MM-DD)"
+          },
+          "grossSalary": {
+            "$ref": "#/components/schemas/MonetaryAmount",
+            "description": "The employee's gross salary details"
+          },
+          "hiringDate": {
+            "type": "string",
+            "format": "date",
+            "description": "The date when the employee was hired in ISO 8601 format (YYYY-MM-DD)"
+          },
+          "taxRegime": {
+            "type": "string",
+            "enum": [
+              "general",
+              "basque",
+              "navarrese",
+              "biscayan"
+            ],
+            "description": "The employee's tax regime"
+          },
+          "workdayConfiguration": {
+            "$ref": "#/components/schemas/WorkdayConfiguration",
+            "description": "Configuration of the employee's workday"
+          },
+          "internalId": {
+            "type": "string",
+            "description": "Your internal identifier for the employee"
+          },
+          "costCenter": {
+            "type": "string",
+            "description": "The cost centre associated with this employee"
+          },
+          "payrollCompany": {
+            "type": "string",
+            "description": "The company handling the employee's payroll, if different from the main company"
+          },
+          "modelId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The ID of the benefit model to assign to this employee"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Additional metadata for the employee (key-value pairs)",
+            "additionalProperties": true
+          }
+        },
+        "example": {
+          "email": "john.smith@example.com",
+          "legalId": "12345678Z",
+          "name": "John",
+          "surname": "Smith",
+          "birthDate": "1985-07-15",
+          "grossSalary": {
+            "amountInCents": 4500000,
+            "currency": "EUR"
+          },
+          "hiringDate": "2023-01-10",
+          "taxRegime": "general",
+          "workdayConfiguration": {
+            "daysPerMonth": 22,
+            "workTimePercentage": 100,
+            "numberOfPaychecks": 14,
+            "collectiveAgreementSalary": {
+              "amountInCents": 3800000,
+              "currency": "EUR"
+            }
+          },
+          "internalId": "EMP-1234",
+          "costCenter": "Finance",
+          "payrollCompany": "Main Branch",
+          "modelId": "7a6c9ab8-8c2d-5c82-9c8c-f5e7e7e7e7e7",
+          "metadata": {
+            "department": "Finance",
+            "manager": "Jane Doe",
+            "office": "Madrid"
+          }
+        }
+      },
+      "RegisterEmployeeResponse": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The unique identifier of the registered employee"
+          }
+        },
+        "example": {
+          "id": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8"
+        }
+      },
+      "Employee": {
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "legalId",
+          "name",
+          "surname",
+          "birthDate",
+          "grossSalary",
+          "hiringDate",
+          "taxRegime",
+          "workdayConfiguration",
+          "internalId",
+          "modelId",
+          "state"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The unique identifier of the employee"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "The employee's email address"
+          },
+          "legalId": {
+            "type": "string",
+            "description": "The employee's legal identifier"
+          },
+          "name": {
+            "type": "string",
+            "description": "The employee's first name"
+          },
+          "surname": {
+            "type": "string",
+            "description": "The employee's surname"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date",
+            "description": "The employee's date of birth in ISO 8601 format (YYYY-MM-DD)"
+          },
+          "grossSalary": {
+            "$ref": "#/components/schemas/MonetaryAmount",
+            "description": "The employee's gross salary details"
+          },
+          "hiringDate": {
+            "type": "string",
+            "format": "date",
+            "description": "The date when the employee was hired in ISO 8601 format (YYYY-MM-DD)"
+          },
+          "taxRegime": {
+            "type": "string",
+            "enum": [
+              "general",
+              "basque",
+              "navarrese",
+              "biscayan"
+            ],
+            "description": "The employee's tax regime"
+          },
+          "workdayConfiguration": {
+            "$ref": "#/components/schemas/WorkdayConfiguration",
+            "description": "Configuration of the employee's workday"
+          },
+          "internalId": {
+            "type": "string",
+            "description": "Your internal identifier for the employee"
+          },
+          "costCenter": {
+            "type": "string",
+            "description": "The cost centre associated with this employee"
+          },
+          "payrollCompany": {
+            "type": "string",
+            "description": "The company handling the employee's payroll, if different from the main company"
+          },
+          "modelId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The ID of the benefit model assigned to this employee"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Additional metadata for the employee (key-value pairs)",
+            "additionalProperties": true
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "not-active",
+              "active",
+              "removed",
+              "blocked"
+            ],
+            "description": "The current state of the employee"
+          }
+        }
+      },
+      "MigrateEmployeeRequest": {
+        "type": "object",
+        "required": [
+          "newCompanyId",
+          "email",
+          "legalId",
+          "name",
+          "surname",
+          "birthDate",
+          "grossSalary",
+          "hiringDate",
+          "taxRegime"
+        ],
+        "properties": {
+          "newCompanyId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The id of the destination company"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "The employee's email address"
+          },
+          "legalId": {
+            "type": "string",
+            "description": "The employee's legal identifier"
+          },
+          "name": {
+            "type": "string",
+            "description": "The employee's first name"
+          },
+          "surname": {
+            "type": "string",
+            "description": "The employee's surname"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date",
+            "description": "The employee's date of birth in ISO 8601 format (YYYY-MM-DD)"
+          },
+          "grossSalary": {
+            "$ref": "#/components/schemas/MonetaryAmount",
+            "description": "The employee's gross salary details"
+          },
+          "hiringDate": {
+            "type": "string",
+            "format": "date",
+            "description": "The date when the employee was hired in ISO 8601 format (YYYY-MM-DD)"
+          },
+          "taxRegime": {
+            "type": "string",
+            "enum": [
+              "general",
+              "basque",
+              "navarrese",
+              "biscayan"
+            ],
+            "description": "The employee's tax regime"
+          },
+          "internalId": {
+            "type": "string",
+            "description": "Your internal identifier for the employee"
+          },
+          "costCenter": {
+            "type": "string",
+            "description": "The cost centre associated with this employee"
+          },
+          "payrollCompany": {
+            "type": "string",
+            "description": "The company handling the employee's payroll, if different from the main company"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Additional metadata for the employee (key-value pairs)",
+            "additionalProperties": true,
+            "example": {
+              "department": "Finance",
+              "manager": "Jane Doe",
+              "office": "Madrid"
+            }
+          }
+        }
+      },
+      "UpdateEmployeeRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "The employee's email address"
+          },
+          "legalId": {
+            "type": "string",
+            "description": "The employee's legal identifier"
+          },
+          "name": {
+            "type": "string",
+            "description": "The employee's first name"
+          },
+          "surname": {
+            "type": "string",
+            "description": "The employee's surname"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date",
+            "description": "The employee's date of birth in ISO 8601 format (YYYY-MM-DD)"
+          },
+          "grossSalary": {
+            "$ref": "#/components/schemas/MonetaryAmount",
+            "description": "The employee's gross salary details"
+          },
+          "hiringDate": {
+            "type": "string",
+            "format": "date",
+            "description": "The date when the employee was hired in ISO 8601 format (YYYY-MM-DD)"
+          },
+          "taxRegime": {
+            "type": "string",
+            "enum": [
+              "general",
+              "basque",
+              "navarrese",
+              "biscayan"
+            ],
+            "description": "The employee's tax regime"
+          },
+          "workdayConfiguration": {
+            "$ref": "#/components/schemas/WorkdayConfiguration",
+            "description": "Configuration of the employee's workday"
+          },
+          "internalId": {
+            "type": "string",
+            "description": "Your internal identifier for the employee"
+          },
+          "costCenter": {
+            "type": "string",
+            "description": "The cost centre associated with this employee"
+          },
+          "payrollCompany": {
+            "type": "string",
+            "description": "The company handling the employee's payroll, if different from the main company"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Additional metadata for the employee (key-value pairs)",
+            "additionalProperties": true
+          },
+          "ssoInternalId": {
+            "type": "string",
+            "description": "The Single Sign-On internal identifier for the employee"
+          }
+        }
+      },
+      "CreateConsumptionRequest": {
+        "type": "object",
+        "required": [
+          "concept",
+          "category",
+          "behaviour",
+          "amount"
+        ],
+        "properties": {
+          "concept": {
+            "type": "string",
+            "description": "The concept of the consumption",
+            "example": "meal"
+          },
+          "category": {
+            "type": "string",
+            "description": "The category of the consumption",
+            "enum": [
+              "any",
+              "capitalization-benefit",
+              "claps-benefit",
+              "custom-benefit",
+              "education-benefit",
+              "gym-benefit",
+              "health-insurance-benefit",
+              "home-office-benefit",
+              "individual-capitalization-benefit",
+              "it-product-benefit",
+              "life-insurance-benefit",
+              "meal-benefit",
+              "nursery-benefit",
+              "pension-plan-benefit",
+              "renting-benefit",
+              "retirement-insurance-benefit",
+              "transport-benefit",
+              "unknown",
+              "wellness-benefit"
+            ],
+            "example": "meal-benefit"
+          },
+          "behaviour": {
+            "enum": [
+              "allowance",
+              "allowance-not-exempt",
+              "flex",
+              "flex-not-exempt"
+            ],
+            "description": "The behaviour of the consumption"
+          },
+          "amount": {
+            "type": "number",
+            "description": "The amount of the consumption"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

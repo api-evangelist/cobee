@@ -1,0 +1,43 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/cobee-public-api-openapi-original.json
+# Cobee returns a custom JSON error envelope (NOT RFC 9457 problem+json).
+format: custom
+envelope:
+  media_type: application/json
+  schema: '#/components/schemas/Error'
+  fields:
+    error: integer (int32) numeric error code — required
+    message: string human-readable description — required
+  example:
+    message: 'Bad request: Invalid field value'
+# HTTP status classes observed across the Public API operations.
+problems:
+  - status: 400
+    title: Bad Request
+    meaning: Request validation failed (invalid or missing field values).
+    seen_on: [postOauthToken, registerEmployee, closePayrollCycle, createEmployeeConsumption]
+  - status: 401
+    title: Unauthorized
+    meaning: Missing, invalid, or expired bearer JWT.
+    seen_on: [postOauthToken, getCompanies, registerEmployee, closePayrollCycle, getBenefitModels, getBenefitModel, createEmployeeConsumption]
+  - status: 403
+    title: Forbidden
+    meaning: Authenticated principal lacks access to the requested company/resource.
+    seen_on: [registerEmployee]
+  - status: 404
+    title: Not Found
+    meaning: Referenced company, employee, benefit model, or payroll cycle does not exist.
+    seen_on: [registerEmployee, getEmployee, removeEmployee, updateEmployee, blockEmployee, unblockEmployee, restoreEmployee, inviteEmployee, migrateEmployee, getPayrollCycles, closePayrollCycle, getBenefitModel, getCompanyConsumptions, getEmployeeConsumptions, getEmployeeConsumptionsForPayrollCycle, createEmployeeConsumption]
+  - status: 409
+    title: Conflict
+    meaning: Resource state conflict (e.g. employee already exists/blocked, payroll cycle already closed).
+    seen_on: [registerEmployee, blockEmployee, unblockEmployee, inviteEmployee, migrateEmployee, closePayrollCycle]
+  - status: 422
+    title: Unprocessable Entity
+    meaning: Semantically invalid request (e.g. employee cannot be invited in current state).
+    seen_on: [inviteEmployee]
+  - status: 500
+    title: Internal Server Error
+    meaning: Unexpected server-side error.
+    seen_on: [registerEmployee, getEmployees, getEmployee, removeEmployee, updateEmployee, blockEmployee, unblockEmployee, restoreEmployee, inviteEmployee, migrateEmployee, closePayrollCycle, getBenefitModel, getCompanyConsumptions, getEmployeeConsumptions, getEmployeeConsumptionsForPayrollCycle, createEmployeeConsumption]

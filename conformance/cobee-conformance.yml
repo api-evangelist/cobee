@@ -1,0 +1,33 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.api.cobee.io/en/security.md
+# Which cross-cutting standards the Cobee Public API conforms to, searched from
+# the docs security page and derived from the OpenAPI.
+standards:
+  - id: openapi-3.0
+    conforms: true
+    evidence: Provider publishes an OpenAPI 3.0.1 bundled definition (public-openapi-bundled.json).
+  - id: oauth2-client-credentials
+    conforms: true
+    evidence: 'Security docs state OAuth 2.0 Client Credentials grant for server-to-server; POST /oauth/token issues a JWT.'
+  - id: oidc
+    conforms: partial
+    evidence: 'Tokens signed RS256 and validated against Auth0 (OIDC provider); no published /.well-known/openid-configuration on the API host (401).'
+  - id: jwt-rfc7519
+    conforms: true
+    evidence: Bearer credential is a JWT with companyId/corporationId claims, RS256-signed.
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: 'Errors use a custom { error, message } JSON envelope, not application/problem+json.'
+  - id: rfc8594-sunset-header
+    conforms: false
+    evidence: No Sunset/Deprecation header support documented.
+  - id: idempotency
+    conforms: false
+    evidence: No Idempotency-Key contract documented or present in the spec.
+compliance_program:
+  trust_center: https://trust.cobee.io/
+  note: >-
+    Cobee publishes a Vanta-backed trust center; specific named certifications
+    were not machine-extractable at capture time. See security/cobee-trust-center.yml.
+    No Compliance pointer is emitted until named certifications are confirmed.
