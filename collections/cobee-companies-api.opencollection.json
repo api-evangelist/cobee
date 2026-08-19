@@ -1,0 +1,604 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Public Companies API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Companies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Set employee limits",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://pre-public-api.cobee.io/api/v3/companies/:companyId/employees/:employeeId/limits",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "",
+                "type": "path",
+                "description": "The company identifier"
+              },
+              {
+                "name": "employeeId",
+                "value": "",
+                "type": "path",
+                "description": "The employee identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sets the employee limits for all the benefits defined by the partner"
+        },
+        {
+          "info": {
+            "name": "Get all companies associated with the authenticated user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-public-api.cobee.io/api/v3/companies",
+            "params": [
+              {
+                "name": "legalId",
+                "value": "B12345678,B87654321",
+                "type": "query",
+                "description": "Company CIF(s) to filter by. Can be a single CIF or multiple CIFs separated by commas"
+              },
+              {
+                "name": "state",
+                "value": "active",
+                "type": "query",
+                "description": "Company state to filter by"
+              }
+            ]
+          },
+          "docs": "Get all companies associated with the authenticated user"
+        },
+        {
+          "info": {
+            "name": "Get employees",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-public-api.cobee.io/api/v3/companies/:companyId/employees",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890",
+                "type": "path",
+                "description": "The unique identifier of the company"
+              },
+              {
+                "name": "email",
+                "value": "john.smith@example.com",
+                "type": "query",
+                "description": "Employee email to filter by"
+              },
+              {
+                "name": "legalId",
+                "value": "12345678Z",
+                "type": "query",
+                "description": "Employee legal ID to filter by"
+              },
+              {
+                "name": "internalId",
+                "value": "EMP-1234",
+                "type": "query",
+                "description": "Employee internal ID to filter by"
+              },
+              {
+                "name": "state",
+                "value": "active",
+                "type": "query",
+                "description": "Employee state to filter by"
+              }
+            ]
+          },
+          "docs": "Get employees"
+        },
+        {
+          "info": {
+            "name": "Register employee",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-public-api.cobee.io/api/v3/companies/:companyId/employees",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890",
+                "type": "path",
+                "description": "The unique identifier of the company"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Register employee"
+        },
+        {
+          "info": {
+            "name": "Get employee",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-public-api.cobee.io/api/v3/companies/:companyId/employees/:employeeId",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890",
+                "type": "path",
+                "description": "The unique identifier of the company"
+              },
+              {
+                "name": "employeeId",
+                "value": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8",
+                "type": "path",
+                "description": "The unique identifier of the employee"
+              }
+            ]
+          },
+          "docs": "Get employee"
+        },
+        {
+          "info": {
+            "name": "Update employee",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://pre-public-api.cobee.io/api/v3/companies/:companyId/employees/:employeeId",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890",
+                "type": "path",
+                "description": "The unique identifier of the company"
+              },
+              {
+                "name": "employeeId",
+                "value": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8",
+                "type": "path",
+                "description": "The unique identifier of the employee"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint allows you to update an existing employee's information in the Cobee system. All fields in the request body are optional, so you only need to include the fields you want to update."
+        },
+        {
+          "info": {
+            "name": "Remove employee",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://pre-public-api.cobee.io/api/v3/companies/:companyId/employees/:employeeId",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890",
+                "type": "path",
+                "description": "The unique identifier of the company"
+              },
+              {
+                "name": "employeeId",
+                "value": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8",
+                "type": "path",
+                "description": "The unique identifier of the employee"
+              }
+            ]
+          },
+          "docs": "Remove employee"
+        },
+        {
+          "info": {
+            "name": "Block employee",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://pre-public-api.cobee.io/api/v3/companies/:companyId/employees/:employeeId/block",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890",
+                "type": "path",
+                "description": "The unique identifier of the company"
+              },
+              {
+                "name": "employeeId",
+                "value": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8",
+                "type": "path",
+                "description": "The unique identifier of the employee"
+              }
+            ]
+          },
+          "docs": "Block employee"
+        },
+        {
+          "info": {
+            "name": "Unblock employee",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://pre-public-api.cobee.io/api/v3/companies/:companyId/employees/:employeeId/unblock",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890",
+                "type": "path",
+                "description": "The unique identifier of the company"
+              },
+              {
+                "name": "employeeId",
+                "value": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8",
+                "type": "path",
+                "description": "The unique identifier of the employee"
+              }
+            ]
+          },
+          "docs": "Unblock employee"
+        },
+        {
+          "info": {
+            "name": "Restore employee",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://pre-public-api.cobee.io/api/v3/companies/:companyId/employees/:employeeId/restore",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890",
+                "type": "path",
+                "description": "The unique identifier of the company"
+              },
+              {
+                "name": "employeeId",
+                "value": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8",
+                "type": "path",
+                "description": "The unique identifier of the employee"
+              }
+            ]
+          },
+          "docs": "Restore employee"
+        },
+        {
+          "info": {
+            "name": "Send invitation email to an employee",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-public-api.cobee.io/api/v3/companies/:companyId/employees/:employeeId/invite",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890",
+                "type": "path",
+                "description": "The unique identifier of the company"
+              },
+              {
+                "name": "employeeId",
+                "value": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8",
+                "type": "path",
+                "description": "The unique identifier of the employee"
+              }
+            ]
+          },
+          "docs": "Send invitation email to an employee"
+        },
+        {
+          "info": {
+            "name": "Migrates an employee from one company to another within the same corporation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-public-api.cobee.io/api/v3/companies/:companyId/employees/:employeeId/migrate",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890",
+                "type": "path",
+                "description": "The unique identifier of the company"
+              },
+              {
+                "name": "employeeId",
+                "value": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8",
+                "type": "path",
+                "description": "The unique identifier of the employee"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Migrates an employee from one company to another within the same corporation"
+        },
+        {
+          "info": {
+            "name": "Get the payroll cycles of a company. A null value on the end date means that the cycle is currently open.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-public-api.cobee.io/api/v3/companies/:companyId/payroll-cycles",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890",
+                "type": "path",
+                "description": "The unique identifier of the company"
+              }
+            ]
+          },
+          "docs": "Get the payroll cycles of a company. A null value on the end date means that the cycle is currently open."
+        },
+        {
+          "info": {
+            "name": "Close the current payroll cycle and open a new one.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-public-api.cobee.io/api/v3/companies/:companyId/payroll-cycles/:payrollCycleId",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "dfe4e8a9-ff19-4b3b-953a-2d64c6e88539",
+                "type": "path",
+                "description": "The unique identifier of the company"
+              },
+              {
+                "name": "payrollCycleId",
+                "value": "dfe4e8a9-ff19-4b3b-953a-2d64c6e88539",
+                "type": "path",
+                "description": "The unique identifier of the payroll cycle"
+              }
+            ]
+          },
+          "docs": "Close the current payroll cycle and open a new one."
+        },
+        {
+          "info": {
+            "name": "Get all benefit models for a the company",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-public-api.cobee.io/api/v3/companies/:companyId/benefit-models",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890",
+                "type": "path",
+                "description": "The unique identifier of the company"
+              }
+            ]
+          },
+          "docs": "Get all benefit models for a the company"
+        },
+        {
+          "info": {
+            "name": "Get the information of a benefit model",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-public-api.cobee.io/api/v3/companies/:companyId/benefit-models/:benefitModelId",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890",
+                "type": "path",
+                "description": "The unique identifier of the company"
+              },
+              {
+                "name": "benefitModelId",
+                "value": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890",
+                "type": "path",
+                "description": "The unique identifier of the benefit model"
+              }
+            ]
+          },
+          "docs": "Get the information of a benefit model"
+        },
+        {
+          "info": {
+            "name": "Find all employee consumptions for a specific company",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-public-api.cobee.io/api/v3/companies/:companyId/consumptions",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "companyId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the company"
+              },
+              {
+                "name": "payrollCycleId",
+                "value": "",
+                "type": "query",
+                "description": "The unique identifier of the payroll cycle. If not provided, the open payroll cycle will be used."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the resulting consumptions.\n - `lines`: as many lines as grouping benefits for each employee\n - `columns`: one line for each employee and as many columns as grouping benefits"
+              },
+              {
+                "name": "categories",
+                "value": "",
+                "type": "query",
+                "description": "List of benefit categories to include in the response, which will return them in the same order as requested."
+              },
+              {
+                "name": "groupBy",
+                "value": "",
+                "type": "query",
+                "description": "Consumptions can be grouped to return data that is more similar to how your system works. The consumptions can be grouped by:\n - `category`: it will calculate the sum of expenses minus withdrawals for all the consumptions in a category,\n - `category,behaviour`: sum of all expenses minus withdrawals for all the consumptions in category and behaviour."
+              }
+            ]
+          },
+          "docs": "Find all employee consumptions for a specific company"
+        },
+        {
+          "info": {
+            "name": "Find employee consumptions for a specific payroll cycle",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-public-api.cobee.io/api/v3/companies/:companyId/employees/:employeeId/consumptions",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "companyId",
+                "value": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890",
+                "type": "path",
+                "description": "The unique identifier of the company"
+              },
+              {
+                "name": "employeeId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the employee"
+              },
+              {
+                "name": "payrollCycleId",
+                "value": "",
+                "type": "query",
+                "description": "The unique identifier of the payroll cycle. If not provided, the open payroll cycle will be used."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the resulting consumptions request. Lines: as many lines as benefits for each employee, Columns: one line for each employee and as many columns as benefits"
+              },
+              {
+                "name": "categories",
+                "value": "",
+                "type": "query",
+                "description": "List of benefit categories to include in the response, which will return them in the same order as requested."
+              }
+            ]
+          },
+          "docs": "Find employee consumptions for a specific payroll cycle"
+        },
+        {
+          "info": {
+            "name": "Find employee consumptions for a specific payroll cycle",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pre-public-api.cobee.io/api/v3/companies/:companyId/payroll-cycles/:payrollCycleId/employees/:employeeId/consumptions",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890",
+                "type": "path",
+                "description": "The unique identifier of the company"
+              },
+              {
+                "name": "payrollCycleId",
+                "value": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8",
+                "type": "path",
+                "description": "The unique identifier of the payroll cycle"
+              },
+              {
+                "name": "employeeId",
+                "value": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8",
+                "type": "path",
+                "description": "The unique identifier of the employee"
+              }
+            ]
+          },
+          "docs": "Find employee consumptions for a specific payroll cycle"
+        },
+        {
+          "info": {
+            "name": "Creates a new employee consumption. **Note:** This endpoint is **only available** in the **sandbox** environment. ",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pre-public-api.cobee.io/api/v3/companies/:companyId/payroll-cycles/:payrollCycleId/employees/:employeeId/consumptions",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890",
+                "type": "path",
+                "description": "The unique identifier of the company"
+              },
+              {
+                "name": "payrollCycleId",
+                "value": "dfe4e8a9-ff19-4b3b-953a-2d64c6e88539",
+                "type": "path",
+                "description": "The unique identifier of the payroll cycle"
+              },
+              {
+                "name": "employeeId",
+                "value": "7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8",
+                "type": "path",
+                "description": "The unique identifier of the employee"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new employee consumption. **Note:** This endpoint is **only available** in the **sandbox** environment. "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
