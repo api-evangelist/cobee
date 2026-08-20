@@ -61,6 +61,8 @@ apis:
   humanURL: https://docs.api.cobee.io/en/get_started
   baseURL: https://public-api.cobee.io/api/v3
   tags:
+  - Authentication
+  tags_raw:
   - Oauth
   properties:
   - type: OpenAPI
