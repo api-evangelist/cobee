@@ -68,13 +68,11 @@ apis:
   - type: OpenAPI
     url: openapi/cobee-companies-api-openapi.yml
 - aid: cobee:cobee-oauth-api
-  name: Cobee by Pluxee Oauth API
+  name: Cobee by Pluxee OAUTH API
   description: The Oauth API from Cobee by Pluxee — 1 operation(s) for oauth.
   humanURL: https://docs.api.cobee.io/en/get_started
   baseURL: https://public-api.cobee.io/api/v3
   tags:
-  - Authentication
-  tags_raw:
   - Oauth
   properties:
   - type: OpenAPI
