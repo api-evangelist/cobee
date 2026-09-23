@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
   title: Public Companies API
   description: Public API definition where you can check the documentation for the different available operations to integrate with the platform.
@@ -113,6 +113,8 @@ paths:
                 message: Company does not belong to the specified partner
       tags:
       - Companies
+      operationId: putCompaniesByCompanyIdEmployeesByEmployeeIdLimits
+      x-operation-id-source: derived
   /companies:
     get:
       summary: Get all companies associated with the authenticated user
@@ -159,6 +161,8 @@ paths:
                 message: Unauthorized
       tags:
       - Companies
+      operationId: getCompanies
+      x-operation-id-source: derived
   /companies/{companyId}/employees:
     post:
       summary: Register employee
@@ -263,6 +267,8 @@ paths:
                 message: 'Internal server error: Unable to process request'
       tags:
       - Companies
+      operationId: postCompaniesByCompanyIdEmployees
+      x-operation-id-source: derived
     get:
       summary: Get employees
       parameters:
@@ -330,6 +336,8 @@ paths:
                 message: Internal server error
       tags:
       - Companies
+      operationId: getCompaniesByCompanyIdEmployees
+      x-operation-id-source: derived
   /companies/{companyId}/employees/{employeeId}:
     get:
       summary: Get employee
@@ -403,6 +411,8 @@ paths:
                 message: Internal server error
       tags:
       - Companies
+      operationId: getCompaniesByCompanyIdEmployeesByEmployeeId
+      x-operation-id-source: derived
     delete:
       summary: Remove employee
       parameters:
@@ -443,6 +453,8 @@ paths:
                 message: Internal server error
       tags:
       - Companies
+      operationId: deleteCompaniesByCompanyIdEmployeesByEmployeeId
+      x-operation-id-source: derived
     patch:
       summary: Update employee
       description: This endpoint allows you to update an existing employee's information in the Cobee system. All fields in the request body are optional, so you only need to include the fields you want to update.
@@ -515,6 +527,8 @@ paths:
                 message: Internal server error
       tags:
       - Companies
+      operationId: patchCompaniesByCompanyIdEmployeesByEmployeeId
+      x-operation-id-source: derived
   /companies/{companyId}/employees/{employeeId}/block:
     patch:
       summary: Block employee
@@ -564,6 +578,8 @@ paths:
                 message: Internal server error
       tags:
       - Companies
+      operationId: patchCompaniesByCompanyIdEmployeesByEmployeeIdBlock
+      x-operation-id-source: derived
   /companies/{companyId}/employees/{employeeId}/unblock:
     patch:
       summary: Unblock employee
@@ -613,6 +629,8 @@ paths:
                 message: Internal server error
       tags:
       - Companies
+      operationId: patchCompaniesByCompanyIdEmployeesByEmployeeIdUnblock
+      x-operation-id-source: derived
   /companies/{companyId}/employees/{employeeId}/restore:
     patch:
       summary: Restore employee
@@ -654,6 +672,8 @@ paths:
                 message: Internal server error
       tags:
       - Companies
+      operationId: patchCompaniesByCompanyIdEmployeesByEmployeeIdRestore
+      x-operation-id-source: derived
   /companies/{companyId}/employees/{employeeId}/invite:
     post:
       summary: Send invitation email to an employee
@@ -711,6 +731,8 @@ paths:
                 message: Internal server error
       tags:
       - Companies
+      operationId: postCompaniesByCompanyIdEmployeesByEmployeeIdInvite
+      x-operation-id-source: derived
   /companies/{companyId}/employees/{employeeId}/migrate:
     post:
       summary: Migrates an employee from one company to another within the same corporation
@@ -787,9 +809,11 @@ paths:
                 message: Internal server error
       tags:
       - Companies
+      operationId: postCompaniesByCompanyIdEmployeesByEmployeeIdMigrate
+      x-operation-id-source: derived
   /companies/{companyId}/payroll-cycles:
     get:
-      summary: Get the payroll cycles of a company. A null value on the end date means that the cycle is currently open.
+      summary: Get the payroll cycles of a company.
       parameters:
       - name: companyId
         in: path
@@ -828,8 +852,9 @@ paths:
                           format: timestamp
                           example: 1672531200
                         end:
-                          type: integer
-                          nullable: true
+                          type:
+                          - integer
+                          - 'null'
                           description: The end date for the payroll cycle, in timestamp format. A Null value is returned if the cycle is currently open.
                           example: 1675123200
                         fiscalYear:
@@ -851,9 +876,11 @@ paths:
                 message: Company not found
       tags:
       - Companies
+      operationId: getCompaniesByCompanyIdPayrollCycles
+      x-operation-id-source: derived
   /companies/{companyId}/payroll-cycles/{payrollCycleId}:
     post:
-      summary: Close the current payroll cycle and open a new one.
+      summary: Close the current payroll cycle and open a new one
       parameters:
       - name: companyId
         in: path
@@ -920,6 +947,8 @@ paths:
                 message: 'Internal server error: Unable to process request'
       tags:
       - Companies
+      operationId: postCompaniesByCompanyIdPayrollCyclesByPayrollCycleId
+      x-operation-id-source: derived
   /companies/{companyId}/benefit-models:
     get:
       deprecated: true
@@ -958,6 +987,8 @@ paths:
                 message: Unauthorized
       tags:
       - Companies
+      operationId: getCompaniesByCompanyIdBenefitModels
+      x-operation-id-source: derived
   /companies/{companyId}/benefit-models/{benefitModelId}:
     get:
       deprecated: true
@@ -1012,6 +1043,8 @@ paths:
                 message: Internal server error
       tags:
       - Companies
+      operationId: getCompaniesByCompanyIdBenefitModelsByBenefitModelId
+      x-operation-id-source: derived
   /companies/{companyId}/consumptions:
     get:
       summary: Find all employee consumptions for a specific company
@@ -1115,8 +1148,9 @@ paths:
                         format: timestamp
                         example: 1672531200
                       end:
-                        type: integer
-                        nullable: true
+                        type:
+                        - integer
+                        - 'null'
                         description: The end date for the payroll cycle, in timestamp format. A Null value is returned if the cycle is currently open.
                         example: 1675123200
                       fiscalYear:
@@ -1248,6 +1282,8 @@ paths:
                 message: Internal server error
       tags:
       - Companies
+      operationId: getCompaniesByCompanyIdConsumptions
+      x-operation-id-source: derived
   /companies/{companyId}/employees/{employeeId}/consumptions:
     get:
       summary: Find employee consumptions for a specific payroll cycle
@@ -1351,8 +1387,9 @@ paths:
                         format: timestamp
                         example: 1672531200
                       end:
-                        type: integer
-                        nullable: true
+                        type:
+                        - integer
+                        - 'null'
                         description: The end date for the payroll cycle, in timestamp format. A Null value is returned if the cycle is currently open.
                         example: 1675123200
                       fiscalYear:
@@ -1457,6 +1494,8 @@ paths:
                 message: Internal server error
       tags:
       - Companies
+      operationId: getCompaniesByCompanyIdEmployeesByEmployeeIdConsumptions
+      x-operation-id-source: derived
   /companies/{companyId}/payroll-cycles/{payrollCycleId}/employees/{employeeId}/consumptions:
     get:
       deprecated: true
@@ -1567,8 +1606,10 @@ paths:
                 message: Internal server error
       tags:
       - Companies
+      operationId: getCompaniesByCompanyIdPayrollCyclesByPayrollCycleIdEmployeesByEmployeeIdConsumptions
+      x-operation-id-source: derived
     post:
-      summary: 'Creates a new employee consumption. **Note:** This endpoint is **only available** in the **sandbox** environment. '
+      summary: Creates a new employee consumption.
       parameters:
       - name: companyId
         in: path
@@ -1644,8 +1685,140 @@ paths:
                 message: 'Internal server error: Unable to process request'
       tags:
       - Companies
+      operationId: postCompaniesByCompanyIdPayrollCyclesByPayrollCycleIdEmployeesByEmployeeIdConsumptions
+      x-operation-id-source: derived
 components:
   schemas:
+    Address:
+      type: object
+      properties:
+        streetName:
+          type: string
+          description: The name of the street
+        streetNumber:
+          type: string
+          description: The number of the building
+        details:
+          type:
+          - string
+          - 'null'
+          description: Additional address details, if any
+        street:
+          type: string
+          description: Full formatted street address
+        postalCode:
+          type: string
+          description: The postal code of the address
+        province:
+          type: string
+          description: The province or state of the address
+        locality:
+          type: string
+          description: The city or town of the address
+        district:
+          type:
+          - string
+          - 'null'
+          description: The district of the address, if applicable
+      required:
+      - streetName
+      - streetNumber
+      - street
+      - postalCode
+      - province
+      - locality
+    Employee:
+      type: object
+      required:
+      - id
+      - email
+      - legalId
+      - name
+      - surname
+      - birthDate
+      - grossSalary
+      - hiringDate
+      - taxRegime
+      - workdayConfiguration
+      - internalId
+      - modelId
+      - state
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique identifier of the employee
+        email:
+          type: string
+          format: email
+          description: The employee's email address
+        legalId:
+          type: string
+          description: The employee's legal identifier
+        name:
+          type: string
+          description: The employee's first name
+        surname:
+          type: string
+          description: The employee's surname
+        birthDate:
+          type: string
+          format: date
+          description: The employee's date of birth in ISO 8601 format (YYYY-MM-DD)
+        grossSalary:
+          $ref: '#/components/schemas/MonetaryAmount'
+          description: The employee's gross salary details
+        hiringDate:
+          type: string
+          format: date
+          description: The date when the employee was hired in ISO 8601 format (YYYY-MM-DD)
+        taxRegime:
+          type: string
+          enum:
+          - general
+          - basque
+          - navarrese
+          - biscayan
+          description: The employee's tax regime
+        workdayConfiguration:
+          $ref: '#/components/schemas/WorkdayConfiguration'
+          description: Configuration of the employee's workday
+        internalId:
+          type: string
+          description: Your internal identifier for the employee
+        costCenter:
+          type: string
+          description: The cost centre associated with this employee
+        payrollCompany:
+          type: string
+          description: The company handling the employee's payroll, if different from the main company
+        modelId:
+          type: string
+          format: uuid
+          description: The ID of the benefit model assigned to this employee
+        metadata:
+          type: object
+          description: Additional metadata for the employee (key-value pairs)
+          additionalProperties: true
+        state:
+          type: string
+          enum:
+          - not-active
+          - active
+          - removed
+          - blocked
+          description: The current state of the employee
+    RegisterEmployeeResponse:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique identifier of the registered employee
+      example:
+        id: 7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8
     MonetaryAmount:
       type: object
       required:
@@ -1663,6 +1836,237 @@ components:
       example:
         amountInCents: 4500000
         currency: EUR
+    UpdateEmployeeRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: The employee's email address
+        legalId:
+          type: string
+          description: The employee's legal identifier
+        name:
+          type: string
+          description: The employee's first name
+        surname:
+          type: string
+          description: The employee's surname
+        birthDate:
+          type: string
+          format: date
+          description: The employee's date of birth in ISO 8601 format (YYYY-MM-DD)
+        grossSalary:
+          $ref: '#/components/schemas/MonetaryAmount'
+          description: The employee's gross salary details
+        hiringDate:
+          type: string
+          format: date
+          description: The date when the employee was hired in ISO 8601 format (YYYY-MM-DD)
+        taxRegime:
+          type: string
+          enum:
+          - general
+          - basque
+          - navarrese
+          - biscayan
+          description: The employee's tax regime
+        workdayConfiguration:
+          $ref: '#/components/schemas/WorkdayConfiguration'
+          description: Configuration of the employee's workday
+        internalId:
+          type: string
+          description: Your internal identifier for the employee
+        costCenter:
+          type: string
+          description: The cost centre associated with this employee
+        payrollCompany:
+          type: string
+          description: The company handling the employee's payroll, if different from the main company
+        metadata:
+          type: object
+          description: Additional metadata for the employee (key-value pairs)
+          additionalProperties: true
+        ssoInternalId:
+          type: string
+          description: The Single Sign-On internal identifier for the employee
+    RegisterEmployeeRequest:
+      type: object
+      required:
+      - email
+      - legalId
+      - name
+      - surname
+      - birthDate
+      - grossSalary
+      - hiringDate
+      - taxRegime
+      - workdayConfiguration
+      properties:
+        email:
+          type: string
+          format: email
+          description: The employee's email address
+        legalId:
+          type: string
+          description: The employee's legal identifier
+        name:
+          type: string
+          description: The employee's first name
+        surname:
+          type: string
+          description: The employee's surname
+        birthDate:
+          type: string
+          format: date
+          description: The employee's date of birth in ISO 8601 format (YYYY-MM-DD)
+        grossSalary:
+          $ref: '#/components/schemas/MonetaryAmount'
+          description: The employee's gross salary details
+        hiringDate:
+          type: string
+          format: date
+          description: The date when the employee was hired in ISO 8601 format (YYYY-MM-DD)
+        taxRegime:
+          type: string
+          enum:
+          - general
+          - basque
+          - navarrese
+          - biscayan
+          description: The employee's tax regime
+        workdayConfiguration:
+          $ref: '#/components/schemas/WorkdayConfiguration'
+          description: Configuration of the employee's workday
+        internalId:
+          type: string
+          description: Your internal identifier for the employee
+        costCenter:
+          type: string
+          description: The cost centre associated with this employee
+        payrollCompany:
+          type: string
+          description: The company handling the employee's payroll, if different from the main company
+        modelId:
+          type: string
+          format: uuid
+          description: The ID of the benefit model to assign to this employee
+        metadata:
+          type: object
+          description: Additional metadata for the employee (key-value pairs)
+          additionalProperties: true
+      example:
+        email: john.smith@example.com
+        legalId: 12345678Z
+        name: John
+        surname: Smith
+        birthDate: '1985-07-15'
+        grossSalary:
+          amountInCents: 4500000
+          currency: EUR
+        hiringDate: '2023-01-10'
+        taxRegime: general
+        workdayConfiguration:
+          daysPerMonth: 22
+          workTimePercentage: 100
+          numberOfPaychecks: 14
+          collectiveAgreementSalary:
+            amountInCents: 3800000
+            currency: EUR
+        internalId: EMP-1234
+        costCenter: Finance
+        payrollCompany: Main Branch
+        modelId: 7a6c9ab8-8c2d-5c82-9c8c-f5e7e7e7e7e7
+        metadata:
+          department: Finance
+          manager: Jane Doe
+          office: Madrid
+    Company:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique identifier of the company
+        name:
+          type: string
+          description: The name of the company
+        legalId:
+          type: string
+          description: The legal identification number of the company
+        legalName:
+          type: string
+          description: The legal name of the company
+        state:
+          type: string
+          enum:
+          - active
+          description: The state of the company
+        contactEmail:
+          type: string
+          format: email
+          description: The contact email of the company
+        corporationId:
+          type:
+          - string
+          - 'null'
+          description: The corporation ID if applicable, otherwise null
+        countryISO2Code:
+          type: string
+          description: The two-letter ISO code of the company's country
+        deliveryAddress:
+          $ref: '#/components/schemas/Address'
+        legalAddress:
+          $ref: '#/components/schemas/Address'
+      required:
+      - id
+      - name
+      - legalId
+      - legalName
+      - state
+      - contactEmail
+      - countryISO2Code
+      - deliveryAddress
+      - legalAddress
+    BenefitBagConfig:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The identifier of the benefit bag configuration
+        name:
+          type: string
+          description: The name of the benefit bag configuration
+        allowedFor:
+          type: array
+          description: The benefits this configuration can be applied to
+          items:
+            enum:
+            - education-benefit
+            - gift-card-benefit
+            - gym-benefit
+            - health-insurance-benefit
+            - home-office-benefit
+            - individual-capitalization-benefit
+            - it-product-benefit
+            - life-insurance-benefit
+            - meal-benefit
+            - nursery-benefit
+            - pension-plan-benefit
+            - renting-benefit
+            - retirement-insurance-benefit
+            - transport-benefit
+            - unknown
+            - wellness-benefit
+            - claps-benefit
+            - capitalization-benefit
+        consumableFrom:
+          type: string
+          format: date
+          description: The date from which the benefit bag can be consumed
+        limitAmount:
+          $ref: '#/components/schemas/MonetaryAmount'
     CreateConsumptionRequest:
       type: object
       required:
@@ -1775,169 +2179,6 @@ components:
             department: Finance
             manager: Jane Doe
             office: Madrid
-    Company:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: The unique identifier of the company
-        name:
-          type: string
-          description: The name of the company
-        legalId:
-          type: string
-          description: The legal identification number of the company
-        legalName:
-          type: string
-          description: The legal name of the company
-        state:
-          type: string
-          enum:
-          - active
-          description: The state of the company
-        contactEmail:
-          type: string
-          format: email
-          description: The contact email of the company
-        corporationId:
-          type: string
-          nullable: true
-          description: The corporation ID if applicable, otherwise null
-        countryISO2Code:
-          type: string
-          description: The two-letter ISO code of the company's country
-        deliveryAddress:
-          $ref: '#/components/schemas/Address'
-        legalAddress:
-          $ref: '#/components/schemas/Address'
-      required:
-      - id
-      - name
-      - legalId
-      - legalName
-      - state
-      - contactEmail
-      - countryISO2Code
-      - deliveryAddress
-      - legalAddress
-    Employee:
-      type: object
-      required:
-      - id
-      - email
-      - legalId
-      - name
-      - surname
-      - birthDate
-      - grossSalary
-      - hiringDate
-      - taxRegime
-      - workdayConfiguration
-      - internalId
-      - modelId
-      - state
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: The unique identifier of the employee
-        email:
-          type: string
-          format: email
-          description: The employee's email address
-        legalId:
-          type: string
-          description: The employee's legal identifier
-        name:
-          type: string
-          description: The employee's first name
-        surname:
-          type: string
-          description: The employee's surname
-        birthDate:
-          type: string
-          format: date
-          description: The employee's date of birth in ISO 8601 format (YYYY-MM-DD)
-        grossSalary:
-          $ref: '#/components/schemas/MonetaryAmount'
-          description: The employee's gross salary details
-        hiringDate:
-          type: string
-          format: date
-          description: The date when the employee was hired in ISO 8601 format (YYYY-MM-DD)
-        taxRegime:
-          type: string
-          enum:
-          - general
-          - basque
-          - navarrese
-          - biscayan
-          description: The employee's tax regime
-        workdayConfiguration:
-          $ref: '#/components/schemas/WorkdayConfiguration'
-          description: Configuration of the employee's workday
-        internalId:
-          type: string
-          description: Your internal identifier for the employee
-        costCenter:
-          type: string
-          description: The cost centre associated with this employee
-        payrollCompany:
-          type: string
-          description: The company handling the employee's payroll, if different from the main company
-        modelId:
-          type: string
-          format: uuid
-          description: The ID of the benefit model assigned to this employee
-        metadata:
-          type: object
-          description: Additional metadata for the employee (key-value pairs)
-          additionalProperties: true
-        state:
-          type: string
-          enum:
-          - not-active
-          - active
-          - removed
-          - blocked
-          description: The current state of the employee
-    Address:
-      type: object
-      properties:
-        streetName:
-          type: string
-          description: The name of the street
-        streetNumber:
-          type: string
-          description: The number of the building
-        details:
-          type: string
-          nullable: true
-          description: Additional address details, if any
-        street:
-          type: string
-          description: Full formatted street address
-        postalCode:
-          type: string
-          description: The postal code of the address
-        province:
-          type: string
-          description: The province or state of the address
-        locality:
-          type: string
-          description: The city or town of the address
-        district:
-          type: string
-          nullable: true
-          description: The district of the address, if applicable
-      required:
-      - streetName
-      - streetNumber
-      - street
-      - postalCode
-      - province
-      - locality
     WorkdayConfiguration:
       type: object
       required:
@@ -1969,162 +2210,6 @@ components:
         collectiveAgreementSalary:
           amountInCents: 3800000
           currency: EUR
-    RegisterEmployeeRequest:
-      type: object
-      required:
-      - email
-      - legalId
-      - name
-      - surname
-      - birthDate
-      - grossSalary
-      - hiringDate
-      - taxRegime
-      - workdayConfiguration
-      properties:
-        email:
-          type: string
-          format: email
-          description: The employee's email address
-        legalId:
-          type: string
-          description: The employee's legal identifier
-        name:
-          type: string
-          description: The employee's first name
-        surname:
-          type: string
-          description: The employee's surname
-        birthDate:
-          type: string
-          format: date
-          description: The employee's date of birth in ISO 8601 format (YYYY-MM-DD)
-        grossSalary:
-          $ref: '#/components/schemas/MonetaryAmount'
-          description: The employee's gross salary details
-        hiringDate:
-          type: string
-          format: date
-          description: The date when the employee was hired in ISO 8601 format (YYYY-MM-DD)
-        taxRegime:
-          type: string
-          enum:
-          - general
-          - basque
-          - navarrese
-          - biscayan
-          description: The employee's tax regime
-        workdayConfiguration:
-          $ref: '#/components/schemas/WorkdayConfiguration'
-          description: Configuration of the employee's workday
-        internalId:
-          type: string
-          description: Your internal identifier for the employee
-        costCenter:
-          type: string
-          description: The cost centre associated with this employee
-        payrollCompany:
-          type: string
-          description: The company handling the employee's payroll, if different from the main company
-        modelId:
-          type: string
-          format: uuid
-          description: The ID of the benefit model to assign to this employee
-        metadata:
-          type: object
-          description: Additional metadata for the employee (key-value pairs)
-          additionalProperties: true
-      example:
-        email: john.smith@example.com
-        legalId: 12345678Z
-        name: John
-        surname: Smith
-        birthDate: '1985-07-15'
-        grossSalary:
-          amountInCents: 4500000
-          currency: EUR
-        hiringDate: '2023-01-10'
-        taxRegime: general
-        workdayConfiguration:
-          daysPerMonth: 22
-          workTimePercentage: 100
-          numberOfPaychecks: 14
-          collectiveAgreementSalary:
-            amountInCents: 3800000
-            currency: EUR
-        internalId: EMP-1234
-        costCenter: Finance
-        payrollCompany: Main Branch
-        modelId: 7a6c9ab8-8c2d-5c82-9c8c-f5e7e7e7e7e7
-        metadata:
-          department: Finance
-          manager: Jane Doe
-          office: Madrid
-    RegisterEmployeeResponse:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: The unique identifier of the registered employee
-      example:
-        id: 7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8
-    UpdateEmployeeRequest:
-      type: object
-      properties:
-        email:
-          type: string
-          format: email
-          description: The employee's email address
-        legalId:
-          type: string
-          description: The employee's legal identifier
-        name:
-          type: string
-          description: The employee's first name
-        surname:
-          type: string
-          description: The employee's surname
-        birthDate:
-          type: string
-          format: date
-          description: The employee's date of birth in ISO 8601 format (YYYY-MM-DD)
-        grossSalary:
-          $ref: '#/components/schemas/MonetaryAmount'
-          description: The employee's gross salary details
-        hiringDate:
-          type: string
-          format: date
-          description: The date when the employee was hired in ISO 8601 format (YYYY-MM-DD)
-        taxRegime:
-          type: string
-          enum:
-          - general
-          - basque
-          - navarrese
-          - biscayan
-          description: The employee's tax regime
-        workdayConfiguration:
-          $ref: '#/components/schemas/WorkdayConfiguration'
-          description: Configuration of the employee's workday
-        internalId:
-          type: string
-          description: Your internal identifier for the employee
-        costCenter:
-          type: string
-          description: The cost centre associated with this employee
-        payrollCompany:
-          type: string
-          description: The company handling the employee's payroll, if different from the main company
-        metadata:
-          type: object
-          description: Additional metadata for the employee (key-value pairs)
-          additionalProperties: true
-        ssoInternalId:
-          type: string
-          description: The Single Sign-On internal identifier for the employee
     BenefitModel:
       type: object
       properties:
@@ -2152,45 +2237,6 @@ components:
           type: string
       example:
         message: 'Bad request: Invalid field value'
-    BenefitBagConfig:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: The identifier of the benefit bag configuration
-        name:
-          type: string
-          description: The name of the benefit bag configuration
-        allowedFor:
-          type: array
-          description: The benefits this configuration can be applied to
-          items:
-            enum:
-            - education-benefit
-            - gift-card-benefit
-            - gym-benefit
-            - health-insurance-benefit
-            - home-office-benefit
-            - individual-capitalization-benefit
-            - it-product-benefit
-            - life-insurance-benefit
-            - meal-benefit
-            - nursery-benefit
-            - pension-plan-benefit
-            - renting-benefit
-            - retirement-insurance-benefit
-            - transport-benefit
-            - unknown
-            - wellness-benefit
-            - claps-benefit
-            - capitalization-benefit
-        consumableFrom:
-          type: string
-          format: date
-          description: The date from which the benefit bag can be consumed
-        limitAmount:
-          $ref: '#/components/schemas/MonetaryAmount'
   securitySchemes:
     bearerAuth:
       type: http

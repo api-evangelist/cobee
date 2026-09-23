@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Public Companies Oauth API
+  title: Public OAUTH API
   description: Public API definition where you can check the documentation for the different available operations to integrate with the platform.
   license:
     name: MIT
@@ -11,7 +11,7 @@ servers:
 security:
 - bearerAuth: []
 tags:
-- name: Oauth
+- name: OAuth
 paths:
   /oauth/token:
     post:
@@ -58,7 +58,11 @@ paths:
               example:
                 message: Invalid credentials
       tags:
-      - Oauth
+      - OAuth
+      summary: Create oauth token
+      x-summary-source: derived
+      operationId: postOauthToken
+      x-operation-id-source: derived
 components:
   schemas:
     AuthenticateRequest:

@@ -3,9 +3,9 @@ info:
   title: API Evangelist enhancements for Cobee by Pluxee Public API
   version: 1.0.0
 # Provenance
-generated: '2026-07-18'
-method: generated
-source: openapi/cobee-public-api-openapi-original.json
+x-generated: '2026-07-18'
+x-method: generated
+x-source: openapi/cobee-public-api-openapi-original.json
 extends: openapi/cobee-public-api-openapi-original.json
 # The harvested Cobee spec ships operation summaries but no operationIds and no
 # tags. This overlay layers API Evangelist enhancements (stable operationIds and

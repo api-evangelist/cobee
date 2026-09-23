@@ -1,16 +1,48 @@
 {
   "provider": "cobee",
   "sources": [
-    "cobee-companies-api-openapi.yml",
-    "cobee-oauth-api-openapi.yml"
+    "_original/cobee-public-api-openapi-original.json"
   ],
   "outputs": [
     "cobee-companies-api-openapi.yml",
     "cobee-oauth-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 1 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "cobee-public-api-openapi-original.json: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "cobee-public-api-openapi-original.json: tagged paths PUT /companies/{companyId}/employees/{employeeId}/limits -> Companies",
+    "cobee-public-api-openapi-original.json: tagged paths POST /oauth/token -> Oauth",
+    "cobee-public-api-openapi-original.json: tagged paths GET /companies -> Companies",
+    "cobee-public-api-openapi-original.json: tagged paths POST /companies/{companyId}/employees -> Companies",
+    "cobee-public-api-openapi-original.json: tagged paths GET /companies/{companyId}/employees -> Companies",
+    "cobee-public-api-openapi-original.json: tagged paths GET /companies/{companyId}/employees/{employeeId} -> Companies",
+    "cobee-public-api-openapi-original.json: tagged paths DELETE /companies/{companyId}/employees/{employeeId} -> Companies",
+    "cobee-public-api-openapi-original.json: tagged paths PATCH /companies/{companyId}/employees/{employeeId} -> Companies",
+    "cobee-public-api-openapi-original.json: tagged paths PATCH /companies/{companyId}/employees/{employeeId}/block -> Companies",
+    "cobee-public-api-openapi-original.json: tagged paths PATCH /companies/{companyId}/employees/{employeeId}/unblock -> Companies",
+    "cobee-public-api-openapi-original.json: tagged paths PATCH /companies/{companyId}/employees/{employeeId}/restore -> Companies",
+    "cobee-public-api-openapi-original.json: tagged paths POST /companies/{companyId}/employees/{employeeId}/invite -> Companies",
+    "cobee-public-api-openapi-original.json: tagged paths POST /companies/{companyId}/employees/{employeeId}/migrate -> Companies",
+    "cobee-public-api-openapi-original.json: tagged paths GET /companies/{companyId}/payroll-cycles -> Companies",
+    "cobee-public-api-openapi-original.json: tagged paths POST /companies/{companyId}/payroll-cycles/{payrollCycleId} -> Companies",
+    "cobee-public-api-openapi-original.json: tagged paths GET /companies/{companyId}/benefit-models -> Companies",
+    "cobee-public-api-openapi-original.json: tagged paths GET /companies/{companyId}/benefit-models/{benefitModelId} -> Companies",
+    "cobee-public-api-openapi-original.json: tagged paths GET /companies/{companyId}/consumptions -> Companies",
+    "cobee-public-api-openapi-original.json: tagged paths GET /companies/{companyId}/employees/{employeeId}/consumptions -> Companies",
+    "cobee-public-api-openapi-original.json: tagged paths GET /companies/{companyId}/payroll-cycles/{payrollCycleId}/employees/{employeeId}/consumptions -> Companies",
+    "cobee-public-api-openapi-original.json: tagged paths POST /companies/{companyId}/payroll-cycles/{payrollCycleId}/employees/{employeeId}/consumptions -> Companies",
+    "cobee-public-api-openapi-original.json: declared missing tag: Companies",
+    "cobee-public-api-openapi-original.json: declared missing tag: Oauth",
+    "superseded outputs removed: cobee-o-auth-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 2 total)"
+  ],
+  "skipped": [
+    "cobee-companies-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cobee-o-auth-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
