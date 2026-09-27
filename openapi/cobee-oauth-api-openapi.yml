@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Public OAUTH API
+  title: Public OAuth API
   description: Public API definition where you can check the documentation for the different available operations to integrate with the platform.
   license:
     name: MIT

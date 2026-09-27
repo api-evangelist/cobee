@@ -7,9 +7,7 @@
     "cobee-companies-api-openapi.yml",
     "cobee-oauth-api-openapi.yml"
   ],
-  "archived": [
-    "deleted 1 superseded output(s) from the previous generation"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -38,11 +36,10 @@
     "cobee-public-api-openapi-original.json: tagged paths POST /companies/{companyId}/payroll-cycles/{payrollCycleId}/employees/{employeeId}/consumptions -> Companies",
     "cobee-public-api-openapi-original.json: declared missing tag: Companies",
     "cobee-public-api-openapi-original.json: declared missing tag: Oauth",
-    "superseded outputs removed: cobee-o-auth-api-openapi.yml",
-    "apis.yml register: written (+1 apis, 2 total)"
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "cobee-companies-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "cobee-o-auth-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+    "cobee-oauth-api-openapi.yml: previously refined output, superseded by openapi/_original/"
   ]
 }
