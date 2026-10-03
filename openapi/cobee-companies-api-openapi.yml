@@ -1689,135 +1689,19 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    CreateConsumptionRequest:
-      type: object
+    Error:
       required:
-      - concept
-      - category
-      - behaviour
-      - amount
-      properties:
-        concept:
-          type: string
-          description: The concept of the consumption
-          example: meal
-        category:
-          type: string
-          description: The category of the consumption
-          enum:
-          - any
-          - capitalization-benefit
-          - claps-benefit
-          - custom-benefit
-          - education-benefit
-          - gym-benefit
-          - health-insurance-benefit
-          - home-office-benefit
-          - individual-capitalization-benefit
-          - it-product-benefit
-          - life-insurance-benefit
-          - meal-benefit
-          - nursery-benefit
-          - pension-plan-benefit
-          - renting-benefit
-          - retirement-insurance-benefit
-          - transport-benefit
-          - unknown
-          - wellness-benefit
-          example: meal-benefit
-        behaviour:
-          enum:
-          - allowance
-          - allowance-not-exempt
-          - flex
-          - flex-not-exempt
-          description: The behaviour of the consumption
-        amount:
-          type: number
-          description: The amount of the consumption
-    MonetaryAmount:
+      - error
+      - message
       type: object
-      required:
-      - amountInCents
-      - currency
       properties:
-        amountInCents:
+        error:
           type: integer
-          description: The monetary amount in cents (e.g., 4500000 for 45,000)
-          minimum: 0
-        currency:
+          format: int32
+        message:
           type: string
-          description: The currency code (e.g., EUR)
-          example: EUR
       example:
-        amountInCents: 4500000
-        currency: EUR
-    MigrateEmployeeRequest:
-      type: object
-      required:
-      - newCompanyId
-      - email
-      - legalId
-      - name
-      - surname
-      - birthDate
-      - grossSalary
-      - hiringDate
-      - taxRegime
-      properties:
-        newCompanyId:
-          type: string
-          format: uuid
-          description: The id of the destination company
-        email:
-          type: string
-          format: email
-          description: The employee's email address
-        legalId:
-          type: string
-          description: The employee's legal identifier
-        name:
-          type: string
-          description: The employee's first name
-        surname:
-          type: string
-          description: The employee's surname
-        birthDate:
-          type: string
-          format: date
-          description: The employee's date of birth in ISO 8601 format (YYYY-MM-DD)
-        grossSalary:
-          $ref: '#/components/schemas/MonetaryAmount'
-          description: The employee's gross salary details
-        hiringDate:
-          type: string
-          format: date
-          description: The date when the employee was hired in ISO 8601 format (YYYY-MM-DD)
-        taxRegime:
-          type: string
-          enum:
-          - general
-          - basque
-          - navarrese
-          - biscayan
-          description: The employee's tax regime
-        internalId:
-          type: string
-          description: Your internal identifier for the employee
-        costCenter:
-          type: string
-          description: The cost centre associated with this employee
-        payrollCompany:
-          type: string
-          description: The company handling the employee's payroll, if different from the main company
-        metadata:
-          type: object
-          description: Additional metadata for the employee (key-value pairs)
-          additionalProperties: true
-          example:
-            department: Finance
-            manager: Jane Doe
-            office: Madrid
+        message: 'Bad request: Invalid field value'
     UpdateEmployeeRequest:
       type: object
       properties:
@@ -1872,6 +1756,192 @@ components:
         ssoInternalId:
           type: string
           description: The Single Sign-On internal identifier for the employee
+    MonetaryAmount:
+      type: object
+      required:
+      - amountInCents
+      - currency
+      properties:
+        amountInCents:
+          type: integer
+          description: The monetary amount in cents (e.g., 4500000 for 45,000)
+          minimum: 0
+        currency:
+          type: string
+          description: The currency code (e.g., EUR)
+          example: EUR
+      example:
+        amountInCents: 4500000
+        currency: EUR
+    WorkdayConfiguration:
+      type: object
+      required:
+      - daysPerMonth
+      - workTimePercentage
+      - numberOfPaychecks
+      properties:
+        daysPerMonth:
+          type: integer
+          description: The number of working days per month for this employee
+          example: 22
+        workTimePercentage:
+          type: number
+          description: The percentage of a full-time schedule this employee works
+          minimum: 0.01
+          maximum: 100
+          example: 100
+        numberOfPaychecks:
+          type: integer
+          description: The number of salary payments the employee receives per year
+          example: 14
+        collectiveAgreementSalary:
+          $ref: '#/components/schemas/MonetaryAmount'
+          description: The salary established by the collective agreement, if applicable
+      example:
+        daysPerMonth: 22
+        workTimePercentage: 100
+        numberOfPaychecks: 14
+        collectiveAgreementSalary:
+          amountInCents: 3800000
+          currency: EUR
+    BenefitBagConfig:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The identifier of the benefit bag configuration
+        name:
+          type: string
+          description: The name of the benefit bag configuration
+        allowedFor:
+          type: array
+          description: The benefits this configuration can be applied to
+          items:
+            enum:
+            - education-benefit
+            - gift-card-benefit
+            - gym-benefit
+            - health-insurance-benefit
+            - home-office-benefit
+            - individual-capitalization-benefit
+            - it-product-benefit
+            - life-insurance-benefit
+            - meal-benefit
+            - nursery-benefit
+            - pension-plan-benefit
+            - renting-benefit
+            - retirement-insurance-benefit
+            - transport-benefit
+            - unknown
+            - wellness-benefit
+            - claps-benefit
+            - capitalization-benefit
+        consumableFrom:
+          type: string
+          format: date
+          description: The date from which the benefit bag can be consumed
+        limitAmount:
+          $ref: '#/components/schemas/MonetaryAmount'
+    BenefitModel:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The identifier of the benefit model
+        name:
+          type: string
+          description: The name of the benefit model
+        benefitBagConfigs:
+          type: array
+          items:
+            $ref: '#/components/schemas/BenefitBagConfig'
+    Company:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique identifier of the company
+        name:
+          type: string
+          description: The name of the company
+        legalId:
+          type: string
+          description: The legal identification number of the company
+        legalName:
+          type: string
+          description: The legal name of the company
+        state:
+          type: string
+          enum:
+          - active
+          description: The state of the company
+        contactEmail:
+          type: string
+          format: email
+          description: The contact email of the company
+        corporationId:
+          type:
+          - string
+          - 'null'
+          description: The corporation ID if applicable, otherwise null
+        countryISO2Code:
+          type: string
+          description: The two-letter ISO code of the company's country
+        deliveryAddress:
+          $ref: '#/components/schemas/Address'
+        legalAddress:
+          $ref: '#/components/schemas/Address'
+      required:
+      - id
+      - name
+      - legalId
+      - legalName
+      - state
+      - contactEmail
+      - countryISO2Code
+      - deliveryAddress
+      - legalAddress
+    Address:
+      type: object
+      properties:
+        streetName:
+          type: string
+          description: The name of the street
+        streetNumber:
+          type: string
+          description: The number of the building
+        details:
+          type:
+          - string
+          - 'null'
+          description: Additional address details, if any
+        street:
+          type: string
+          description: Full formatted street address
+        postalCode:
+          type: string
+          description: The postal code of the address
+        province:
+          type: string
+          description: The province or state of the address
+        locality:
+          type: string
+          description: The city or town of the address
+        district:
+          type:
+          - string
+          - 'null'
+          description: The district of the address, if applicable
+      required:
+      - streetName
+      - streetNumber
+      - street
+      - postalCode
+      - province
+      - locality
     Employee:
       type: object
       required:
@@ -1953,94 +2023,72 @@ components:
           - removed
           - blocked
           description: The current state of the employee
-    Address:
-      type: object
-      properties:
-        streetName:
-          type: string
-          description: The name of the street
-        streetNumber:
-          type: string
-          description: The number of the building
-        details:
-          type:
-          - string
-          - 'null'
-          description: Additional address details, if any
-        street:
-          type: string
-          description: Full formatted street address
-        postalCode:
-          type: string
-          description: The postal code of the address
-        province:
-          type: string
-          description: The province or state of the address
-        locality:
-          type: string
-          description: The city or town of the address
-        district:
-          type:
-          - string
-          - 'null'
-          description: The district of the address, if applicable
-      required:
-      - streetName
-      - streetNumber
-      - street
-      - postalCode
-      - province
-      - locality
-    RegisterEmployeeResponse:
+    MigrateEmployeeRequest:
       type: object
       required:
-      - id
+      - newCompanyId
+      - email
+      - legalId
+      - name
+      - surname
+      - birthDate
+      - grossSalary
+      - hiringDate
+      - taxRegime
       properties:
-        id:
+        newCompanyId:
           type: string
           format: uuid
-          description: The unique identifier of the registered employee
-      example:
-        id: 7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8
-    BenefitBagConfig:
-      type: object
-      properties:
-        id:
+          description: The id of the destination company
+        email:
           type: string
-          format: uuid
-          description: The identifier of the benefit bag configuration
+          format: email
+          description: The employee's email address
+        legalId:
+          type: string
+          description: The employee's legal identifier
         name:
           type: string
-          description: The name of the benefit bag configuration
-        allowedFor:
-          type: array
-          description: The benefits this configuration can be applied to
-          items:
-            enum:
-            - education-benefit
-            - gift-card-benefit
-            - gym-benefit
-            - health-insurance-benefit
-            - home-office-benefit
-            - individual-capitalization-benefit
-            - it-product-benefit
-            - life-insurance-benefit
-            - meal-benefit
-            - nursery-benefit
-            - pension-plan-benefit
-            - renting-benefit
-            - retirement-insurance-benefit
-            - transport-benefit
-            - unknown
-            - wellness-benefit
-            - claps-benefit
-            - capitalization-benefit
-        consumableFrom:
+          description: The employee's first name
+        surname:
+          type: string
+          description: The employee's surname
+        birthDate:
           type: string
           format: date
-          description: The date from which the benefit bag can be consumed
-        limitAmount:
+          description: The employee's date of birth in ISO 8601 format (YYYY-MM-DD)
+        grossSalary:
           $ref: '#/components/schemas/MonetaryAmount'
+          description: The employee's gross salary details
+        hiringDate:
+          type: string
+          format: date
+          description: The date when the employee was hired in ISO 8601 format (YYYY-MM-DD)
+        taxRegime:
+          type: string
+          enum:
+          - general
+          - basque
+          - navarrese
+          - biscayan
+          description: The employee's tax regime
+        internalId:
+          type: string
+          description: Your internal identifier for the employee
+        costCenter:
+          type: string
+          description: The cost centre associated with this employee
+        payrollCompany:
+          type: string
+          description: The company handling the employee's payroll, if different from the main company
+        metadata:
+          type: object
+          description: Additional metadata for the employee (key-value pairs)
+          additionalProperties: true
+          example:
+            department: Finance
+            manager: Jane Doe
+            office: Madrid
     RegisterEmployeeRequest:
       type: object
       required:
@@ -2132,111 +2180,63 @@ components:
           department: Finance
           manager: Jane Doe
           office: Madrid
-    Company:
+    RegisterEmployeeResponse:
       type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: The unique identifier of the company
-        name:
-          type: string
-          description: The name of the company
-        legalId:
-          type: string
-          description: The legal identification number of the company
-        legalName:
-          type: string
-          description: The legal name of the company
-        state:
-          type: string
-          enum:
-          - active
-          description: The state of the company
-        contactEmail:
-          type: string
-          format: email
-          description: The contact email of the company
-        corporationId:
-          type:
-          - string
-          - 'null'
-          description: The corporation ID if applicable, otherwise null
-        countryISO2Code:
-          type: string
-          description: The two-letter ISO code of the company's country
-        deliveryAddress:
-          $ref: '#/components/schemas/Address'
-        legalAddress:
-          $ref: '#/components/schemas/Address'
       required:
       - id
-      - name
-      - legalId
-      - legalName
-      - state
-      - contactEmail
-      - countryISO2Code
-      - deliveryAddress
-      - legalAddress
-    BenefitModel:
-      type: object
       properties:
         id:
           type: string
           format: uuid
-          description: The identifier of the benefit model
-        name:
-          type: string
-          description: The name of the benefit model
-        benefitBagConfigs:
-          type: array
-          items:
-            $ref: '#/components/schemas/BenefitBagConfig'
-    WorkdayConfiguration:
+          description: The unique identifier of the registered employee
+      example:
+        id: 7f4c9ba8-9c2d-4b82-8b8c-e5f8f8f8f8f8
+    CreateConsumptionRequest:
       type: object
       required:
-      - daysPerMonth
-      - workTimePercentage
-      - numberOfPaychecks
+      - concept
+      - category
+      - behaviour
+      - amount
       properties:
-        daysPerMonth:
-          type: integer
-          description: The number of working days per month for this employee
-          example: 22
-        workTimePercentage:
+        concept:
+          type: string
+          description: The concept of the consumption
+          example: meal
+        category:
+          type: string
+          description: The category of the consumption
+          enum:
+          - any
+          - capitalization-benefit
+          - claps-benefit
+          - custom-benefit
+          - education-benefit
+          - gym-benefit
+          - health-insurance-benefit
+          - home-office-benefit
+          - individual-capitalization-benefit
+          - it-product-benefit
+          - life-insurance-benefit
+          - meal-benefit
+          - nursery-benefit
+          - pension-plan-benefit
+          - renting-benefit
+          - retirement-insurance-benefit
+          - transport-benefit
+          - unknown
+          - wellness-benefit
+          example: meal-benefit
+        behaviour:
+          enum:
+          - allowance
+          - allowance-not-exempt
+          - flex
+          - flex-not-exempt
+          description: The behaviour of the consumption
+        amount:
           type: number
-          description: The percentage of a full-time schedule this employee works
-          minimum: 0.01
-          maximum: 100
-          example: 100
-        numberOfPaychecks:
-          type: integer
-          description: The number of salary payments the employee receives per year
-          example: 14
-        collectiveAgreementSalary:
-          $ref: '#/components/schemas/MonetaryAmount'
-          description: The salary established by the collective agreement, if applicable
-      example:
-        daysPerMonth: 22
-        workTimePercentage: 100
-        numberOfPaychecks: 14
-        collectiveAgreementSalary:
-          amountInCents: 3800000
-          currency: EUR
-    Error:
-      required:
-      - error
-      - message
-      type: object
-      properties:
-        error:
-          type: integer
-          format: int32
-        message:
-          type: string
-      example:
-        message: 'Bad request: Invalid field value'
+          description: The amount of the consumption
   securitySchemes:
     bearerAuth:
       type: http
