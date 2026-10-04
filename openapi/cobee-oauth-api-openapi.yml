@@ -65,6 +65,18 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    AuthenticateRequest:
+      type: object
+      required:
+      - clientId
+      - clientSecret
+      properties:
+        clientId:
+          type: string
+          description: Client ID
+        clientSecret:
+          type: string
+          description: Client Secret
     Error:
       required:
       - error
@@ -78,18 +90,6 @@ components:
           type: string
       example:
         message: 'Bad request: Invalid field value'
-    AuthenticateRequest:
-      type: object
-      required:
-      - clientId
-      - clientSecret
-      properties:
-        clientId:
-          type: string
-          description: Client ID
-        clientSecret:
-          type: string
-          description: Client Secret
   securitySchemes:
     bearerAuth:
       type: http
